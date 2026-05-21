@@ -48,7 +48,7 @@ app.get("/api/health", (_req, res) => {
     res.json({
         ok: true,
         model: MODEL,
-        hasKey: Boolean(process.env.ANTHROPIC_API_KEY),
+        hasKey: Boolean(process.env.GEMINI_API_KEY),
     });
 });
 
