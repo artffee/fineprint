@@ -2,8 +2,8 @@
 
 The one-shot path: GitHub → **Vercel** (free) → `fineprintdoc.com` via Namecheap DNS. About 10 minutes of clicking plus DNS propagation.
 
-> **Costs.** Vercel hosting is free for this size. The **Gemini API** is also
-> free for the first **1,500 contract analyses per day** (Google AI Studio
+> **Costs.** Vercel hosting is free for this size. The **Groq API** is also
+> free for the first **14,400 contract analyses per day** (Groq Console
 > free tier, 15 requests/minute). Beyond that you can either upgrade to
 > pay-as-you-go (~$0.0001–0.001 per analysis) or stay on free with the daily
 > cap. **No credit card needed** for the free tier.
@@ -28,8 +28,8 @@ The one-shot path: GitHub → **Vercel** (free) → `fineprintdoc.com` via Namec
    - **Build Command**: leave empty (no build step — `npm install` is enough).
    - **Output Directory**: leave default.
 5. Expand **Environment Variables** and add:
-   - Name: `GEMINI_API_KEY`
-   - Value: `AIza…` (from <https://aistudio.google.com/app/apikey>)
+   - Name: `GROQ_API_KEY`
+   - Value: `gsk_…` (from <https://console.groq.com>)
 6. Click **Deploy**. First deploy takes ~60 seconds.
 
 ## 2 · Smoke-test the Vercel URL (~30 sec)
@@ -38,10 +38,10 @@ Vercel gives you a preview URL like `fineprint-xyz.vercel.app`.
 
 1. Open `https://fineprint-xyz.vercel.app/api/health`. You want:
    ```json
-   {"ok": true, "model": "gemini-2.0-flash", "hasKey": true}
+   {"ok": true, "model": "llama-3.3-70b-versatile", "hasKey": true}
    ```
 2. Hit the homepage. Hit `/app.html`, paste a real contract, click
-   **Analyze Contract**. You should see a live Gemini analysis (not the
+   **Analyze Contract**. You should see a live Groq analysis (not the
    demo-mode banner).
 
 If health says `hasKey: false`, the env var isn't on production yet —
@@ -96,7 +96,7 @@ the green checks appear in **Domains**, `https://fineprintdoc.com` works.
 - `https://fineprintdoc.com/` → homepage loads, EN/ES toggle works
 - `https://fineprintdoc.com/api/health` → `{ok: true, hasKey: true}`
 - `https://www.fineprintdoc.com/` → also loads (Vercel handles both)
-- `/app.html` → real Gemini analysis on a real contract
+- `/app.html` → real Groq analysis on a real contract
 
 ---
 
@@ -105,12 +105,12 @@ the green checks appear in **Domains**, `https://fineprintdoc.com` works.
 | Item | Cost |
 |---|---|
 | **Vercel** (Hobby tier) | **$0**. 100 GB bandwidth/mo, 100 GB-h functions/mo. Way past what this site will use early. |
-| **Gemini API** | Free tier: 1,500 reads/day at 15 req/min. Pay-as-you-go beyond that is ~$0.0001–0.001 per analysis. No credit card needed for free tier. |
+| **Groq API** | Free tier: 14,400 reads/day at 30 req/min. Pay-as-you-go beyond that is ~$0.0001–0.001 per analysis. No credit card needed for free tier. |
 | **Namecheap** | Annual domain registration only. |
 
-Free tier auto-caps at 1,500 requests/day, so there's nothing to set up. If
+Free tier auto-caps at 14,400 requests/day, so there's nothing to set up. If
 you ever upgrade to pay-as-you-go, set a project quota in
-**Google AI Studio → API keys → your key → Quotas**.
+**Groq Console → API keys → your key → Quotas**.
 
 ## Vercel free-tier limits worth knowing
 
@@ -128,12 +128,12 @@ you ever upgrade to pay-as-you-go, set a project quota in
 - **Vercel says "Invalid Configuration"**: DNS records aren't right. Re-check
   the A-record points to the IP Vercel showed you. Stray Namecheap defaults
   (URL Redirect) often interfere — delete them.
-- **`/api/analyze` returns `503`**: `GEMINI_API_KEY` is missing from the
+- **`/api/analyze` returns `503`**: `GROQ_API_KEY` is missing from the
   Production environment in Vercel. Add it under
   **Settings → Environment Variables**, then redeploy.
 - **`/api/analyze` returns `413` or `FUNCTION_PAYLOAD_TOO_LARGE`**: the PDF
   is over 4.5 MB. Paste the text instead, or split the PDF.
-- **`/api/analyze` returns `504` (timeout)**: PDF parsing + Gemini took longer
+- **`/api/analyze` returns `504` (timeout)**: PDF parsing + Groq took longer
   than 10 seconds. Same workaround: paste text instead of uploading the PDF.
 
 ## Alternative free hosts (if Vercel doesn't suit you)
@@ -151,7 +151,7 @@ Local development still works the same — Vercel-aware refactor is purely
 additive:
 
 ```bash
-cp .env.example .env       # add GEMINI_API_KEY
+cp .env.example .env       # add GROQ_API_KEY
 npm install
 npm start                   # http://localhost:3000
 ```

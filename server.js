@@ -15,19 +15,21 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { readFile } from "fs/promises";
 import "dotenv/config";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import Groq from "groq-sdk";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 3000;
-const MODEL = process.env.FINEPRINT_MODEL || "gemini-2.0-flash";
+// Llama 3.3 70B on Groq — 128k context, JSON mode, sub-second responses,
+// free tier of 14,400 reqs/day.
+const MODEL = process.env.FINEPRINT_MODEL || "llama-3.3-70b-versatile";
 
-if (!process.env.GEMINI_API_KEY) {
-    console.warn("\n[fineprint] WARNING: GEMINI_API_KEY is not set. /api/analyze will return 503.\n");
-    console.warn("[fineprint] Get a free key at https://aistudio.google.com/app/apikey\n");
+if (!process.env.GROQ_API_KEY) {
+    console.warn("\n[fineprint] WARNING: GROQ_API_KEY is not set. /api/analyze will return 503.\n");
+    console.warn("[fineprint] Get a free key at https://console.groq.com\n");
 }
 
-const gemini = process.env.GEMINI_API_KEY
-    ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
+const groq = process.env.GROQ_API_KEY
+    ? new Groq({ apiKey: process.env.GROQ_API_KEY })
     : null;
 
 const app = express();
@@ -48,15 +50,15 @@ app.get("/api/health", (_req, res) => {
     res.json({
         ok: true,
         model: MODEL,
-        hasKey: Boolean(process.env.GEMINI_API_KEY),
+        hasKey: Boolean(process.env.GROQ_API_KEY),
     });
 });
 
 /* -------------------- Analyze ------------------- */
 app.post("/api/analyze", upload.single("file"), async (req, res) => {
-    if (!gemini) {
+    if (!groq) {
         return res.status(503).json({
-            error: "Server is not configured. Set GEMINI_API_KEY in .env (free at aistudio.google.com/app/apikey).",
+            error: "Server is not configured. Set GROQ_API_KEY in .env (free at console.groq.com).",
         });
     }
 
@@ -145,13 +147,14 @@ function normalizeContractType(raw) {
 }
 
 /* -------------------- LLM call ------------------- */
-// Uses Google Gemini (free tier). System prompt + structured-JSON output mode.
+// Uses Groq (Llama 3.3 70B). OpenAI-compatible chat completion with forced
+// JSON output mode (response_format: json_object).
 async function analyzeWithClaude({ text, party, notes, contractType }) {
     const ct = CONTRACT_TYPES[contractType] || CONTRACT_TYPES["real-estate"];
 
-    const systemInstruction = `You are FinePrint, an AI contract analyzer specialising in ${ct.domain}. Your job is to read the document and surface clauses that materially affect the named party's interests.
+    const systemPrompt = `You are FinePrint, an AI contract analyzer specialising in ${ct.domain}. Your job is to read the document and surface clauses that materially affect the named party's interests.
 
-Output a JSON object with EXACTLY this shape:
+You MUST respond with a JSON object having EXACTLY this shape:
 
 {
   "score": number (1.0 to 10.0, one decimal, overall risk to the named party),
@@ -178,7 +181,8 @@ Rules:
 - "quote" must be a real substring of the input. If you cannot find one, omit that flag.
 - "plain" must NEVER quote the contract again — explain the consequence in plain English.
 - Never claim to provide legal advice. The verdict should suggest action, not give legal counsel.
-- If the document does not appear to be a ${ct.domain} contract, return a single flag with sev "critical", title "Wrong contract type", and explain.`;
+- If the document does not appear to be a ${ct.domain} contract, return a single flag with sev "critical", title "Wrong contract type", and explain.
+- Respond ONLY with the JSON object. No commentary, no markdown, no code fences.`;
 
     const userMsg = `Contract type: ${ct.label.toUpperCase()}
 Party: ${party.toUpperCase()}
@@ -191,22 +195,21 @@ ${text}
 
 Respond with the JSON object only.`;
 
-    const model = gemini.getGenerativeModel({
+    const completion = await groq.chat.completions.create({
         model: MODEL,
-        systemInstruction,
-        generationConfig: {
-            temperature: 0.3,
-            maxOutputTokens: 4000,
-            // Force JSON response — no markdown fences, no commentary.
-            responseMimeType: "application/json",
-        },
+        messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: userMsg },
+        ],
+        temperature: 0.3,
+        max_tokens: 4000,
+        // Force JSON response — Groq's Llama 3.3 supports OpenAI-style JSON mode.
+        response_format: { type: "json_object" },
     });
 
-    const result = await model.generateContent(userMsg);
-    const raw = result.response.text().trim();
+    const raw = (completion.choices?.[0]?.message?.content || "").trim();
 
-    // Gemini's responseMimeType="application/json" usually returns clean JSON,
-    // but defend in depth: strip optional code fences and salvage the object.
+    // Defend in depth: strip optional code fences and salvage the JSON object.
     const cleaned = raw.replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/i, "").trim();
 
     let parsed;
@@ -218,7 +221,7 @@ Respond with the JSON object only.`;
         if (first !== -1 && last !== -1) {
             parsed = JSON.parse(cleaned.slice(first, last + 1));
         } else {
-            throw new Error("Gemini did not return valid JSON.");
+            throw new Error("Groq did not return valid JSON.");
         }
     }
 
