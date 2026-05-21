@@ -15,17 +15,20 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { readFile } from "fs/promises";
 import "dotenv/config";
-import Anthropic from "@anthropic-ai/sdk";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 3000;
-const MODEL = process.env.FINEPRINT_MODEL || "claude-sonnet-4-5";
+const MODEL = process.env.FINEPRINT_MODEL || "gemini-2.0-flash";
 
-if (!process.env.ANTHROPIC_API_KEY) {
-    console.warn("\n[fineprint] WARNING: ANTHROPIC_API_KEY is not set. /api/analyze will return 503.\n");
+if (!process.env.GEMINI_API_KEY) {
+    console.warn("\n[fineprint] WARNING: GEMINI_API_KEY is not set. /api/analyze will return 503.\n");
+    console.warn("[fineprint] Get a free key at https://aistudio.google.com/app/apikey\n");
 }
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+const gemini = process.env.GEMINI_API_KEY
+    ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
+    : null;
 
 const app = express();
 app.use(express.json({ limit: "2mb" }));
@@ -51,9 +54,9 @@ app.get("/api/health", (_req, res) => {
 
 /* -------------------- Analyze ------------------- */
 app.post("/api/analyze", upload.single("file"), async (req, res) => {
-    if (!process.env.ANTHROPIC_API_KEY) {
+    if (!gemini) {
         return res.status(503).json({
-            error: "Server is not configured. Set ANTHROPIC_API_KEY in .env.",
+            error: "Server is not configured. Set GEMINI_API_KEY in .env (free at aistudio.google.com/app/apikey).",
         });
     }
 
@@ -141,13 +144,14 @@ function normalizeContractType(raw) {
     return "real-estate";
 }
 
-/* -------------------- Claude call --------------- */
+/* -------------------- LLM call ------------------- */
+// Uses Google Gemini (free tier). System prompt + structured-JSON output mode.
 async function analyzeWithClaude({ text, party, notes, contractType }) {
     const ct = CONTRACT_TYPES[contractType] || CONTRACT_TYPES["real-estate"];
 
-    const system = `You are FinePrint, an AI contract analyzer specialising in ${ct.domain}. Your job is to read the document and surface clauses that materially affect the named party's interests.
+    const systemInstruction = `You are FinePrint, an AI contract analyzer specialising in ${ct.domain}. Your job is to read the document and surface clauses that materially affect the named party's interests.
 
-Output a JSON object with EXACTLY this shape — no commentary, no markdown, no code fences:
+Output a JSON object with EXACTLY this shape:
 
 {
   "score": number (1.0 to 10.0, one decimal, overall risk to the named party),
@@ -187,30 +191,34 @@ ${text}
 
 Respond with the JSON object only.`;
 
-    const response = await anthropic.messages.create({
+    const model = gemini.getGenerativeModel({
         model: MODEL,
-        max_tokens: 4000,
-        system,
-        messages: [{ role: "user", content: userMsg }],
+        systemInstruction,
+        generationConfig: {
+            temperature: 0.3,
+            maxOutputTokens: 4000,
+            // Force JSON response — no markdown fences, no commentary.
+            responseMimeType: "application/json",
+        },
     });
 
-    const block = response.content.find((b) => b.type === "text");
-    const raw = block?.text?.trim() || "";
+    const result = await model.generateContent(userMsg);
+    const raw = result.response.text().trim();
 
-    // Be liberal in what we accept: strip optional code fences
+    // Gemini's responseMimeType="application/json" usually returns clean JSON,
+    // but defend in depth: strip optional code fences and salvage the object.
     const cleaned = raw.replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/i, "").trim();
 
     let parsed;
     try {
         parsed = JSON.parse(cleaned);
     } catch (e) {
-        // Try to salvage: find the first { and last }
         const first = cleaned.indexOf("{");
         const last = cleaned.lastIndexOf("}");
         if (first !== -1 && last !== -1) {
             parsed = JSON.parse(cleaned.slice(first, last + 1));
         } else {
-            throw new Error("Claude did not return valid JSON.");
+            throw new Error("Gemini did not return valid JSON.");
         }
     }
 
