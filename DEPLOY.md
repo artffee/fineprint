@@ -1,88 +1,101 @@
 # Deploy FinePrint
 
-The one-shot path: GitHub → Railway → `fineprintdoc.com` via Namecheap DNS. ~15 minutes of clicking plus DNS propagation.
+The one-shot path: GitHub → **Vercel** (free) → `fineprintdoc.com` via Namecheap DNS. About 10 minutes of clicking plus DNS propagation.
 
-> **Before you start (optional):** the codebase currently references `github.com/fineprintdoc/fineprint` in a few places (READMEs, footer links, JSON-LD). The actual repo is at `github.com/artffee/fineprint`. Run a quick find-and-replace if you want the in-app links to work, or claim the `fineprintdoc` GitHub org and `gh repo transfer artffee/fineprint fineprintdoc/fineprint`.
+> **Costs.** Vercel hosting is free for this size. The **Anthropic API** itself
+> is not free — Claude calls cost roughly **$0.01–0.05 per contract analysis**.
+> New Anthropic accounts get **$5 in free credit** (~100–500 free analyses).
+> No monthly subscription beyond that — you top up as needed.
+
+> **Before you start (optional):** the codebase still references
+> `github.com/fineprintdoc/fineprint` in a few places (README footers, JSON-LD).
+> The real repo is `github.com/artffee/fineprint`. Either find-and-replace, or
+> create the `fineprintdoc` GitHub org and
+> `gh repo transfer artffee/fineprint fineprintdoc/fineprint`.
 
 ---
 
-## 1 · Connect Railway to the GitHub repo (~3 min)
+## 1 · Connect Vercel to the GitHub repo (~3 min)
 
-1. Open <https://railway.app> and sign up with the **GitHub account that owns the repo** (`artffee`).
-2. Click **New Project → Deploy from GitHub repo**.
-3. Authorize Railway to read your repos, then pick **`artffee/fineprint`**.
-4. Railway auto-detects Node.js, runs `npm install`, then `npm start`. Wait for the first deploy to go green (~90 seconds).
-
-## 2 · Add the Anthropic API key (~1 min)
-
-1. Click the service tile, then **Variables** in the side panel.
-2. **+ New Variable**:
+1. Open <https://vercel.com> and **Sign up with GitHub** using the account that
+   owns the repo (`artffee`).
+2. From the dashboard click **Add New → Project**.
+3. Find **`artffee/fineprint`** in the list and click **Import**.
+4. On the configuration screen:
+   - **Framework Preset**: *Other* (Vercel will detect the `vercel.json`).
+   - **Root Directory**: leave as `./`.
+   - **Build Command**: leave empty (no build step — `npm install` is enough).
+   - **Output Directory**: leave default.
+5. Expand **Environment Variables** and add:
    - Name: `ANTHROPIC_API_KEY`
    - Value: `sk-ant-…` (from <https://console.anthropic.com>)
-3. (Optional) `LEXIS_MODEL` → `claude-sonnet-4-5` if you want to pin it.
-4. Railway redeploys automatically on any variable change.
+6. Click **Deploy**. First deploy takes ~60 seconds.
 
-## 3 · Generate the Railway URL and smoke-test (~1 min)
+## 2 · Smoke-test the Vercel URL (~30 sec)
 
-1. **Settings → Networking → Generate Domain**. You get something like
-   `fineprint-production-1234.up.railway.app`.
-2. In a browser, hit
-   `https://fineprint-production-1234.up.railway.app/api/health`. You want:
+Vercel gives you a preview URL like `fineprint-xyz.vercel.app`.
+
+1. Open `https://fineprint-xyz.vercel.app/api/health`. You want:
    ```json
    {"ok": true, "model": "claude-sonnet-4-5", "hasKey": true}
    ```
-3. Visit `/app.html`, paste a real contract, hit **Analyze Contract**. You should
-   see a live Claude analysis, not the demo banner.
+2. Hit the homepage. Hit `/app.html`, paste a real contract, click
+   **Analyze Contract**. You should see a live Claude analysis (not the
+   demo-mode banner).
 
-If health says `hasKey: false`, the variable isn't picked up yet — wait for the
-redeploy to finish.
+If health says `hasKey: false`, the env var isn't on production yet —
+Vercel → **Project → Settings → Environment Variables**, confirm it's set
+for **Production**, then **Deployments → ⋯ → Redeploy**.
 
-## 4 · Add `fineprintdoc.com` as a custom domain in Railway (~1 min)
+## 3 · Add `fineprintdoc.com` as a custom domain in Vercel (~1 min)
 
-1. **Settings → Networking → Custom Domains → + Custom Domain**.
-2. Enter `fineprintdoc.com`. Railway shows you a CNAME target —
-   **copy it** (looks like `xyz123.up.railway.app`).
-3. Click **+ Custom Domain** again, enter `www.fineprintdoc.com`,
-   same CNAME target.
-4. Both show "Pending DNS" — that's expected. Leave this tab open.
+1. **Project → Settings → Domains → Add**.
+2. Type `fineprintdoc.com`, click **Add**.
+3. Type `www.fineprintdoc.com`, click **Add**.
+4. Vercel shows the **DNS records you need to add at your registrar** — copy
+   them. You'll see something like:
 
-## 5 · Point Namecheap DNS at Railway (~5 min + propagation)
+   | Type  | Name | Value                  |
+   |-------|------|------------------------|
+   | A     | `@`  | `76.76.21.21`          |
+   | CNAME | `www`| `cname.vercel-dns.com` |
+
+   (The exact A-record IP may differ; use whatever Vercel shows you.)
+5. **Leave this tab open** — you'll need these values for the next step.
+
+## 4 · Configure DNS at Namecheap (~5 min + propagation)
 
 1. Open <https://ap.www.namecheap.com> → **Domain List** → **Manage**
    next to `fineprintdoc.com`.
 2. Click the **Advanced DNS** tab.
-3. **Delete** any default Namecheap records (the "Parking Page" URL Redirect,
-   and the default `CNAME Record` for `www` pointing at `parkingpage.namecheap.com`).
-4. Click **+ Add New Record** and add the two below:
+3. **Delete** any default Namecheap records (the "Parking Page" URL Redirect
+   under *Redirect Domain*, and any default `CNAME Record` for `www` pointing
+   at `parkingpage.namecheap.com`).
+4. Click **+ Add New Record** and add exactly what Vercel told you. Typical:
 
-   | Type             | Host  | Value                              | TTL       |
-   |------------------|-------|------------------------------------|-----------|
-   | **ALIAS Record** | `@`   | *(the Railway CNAME target)*       | Automatic |
-   | **CNAME Record** | `www` | *(the same Railway CNAME target)*  | Automatic |
+   | Type             | Host  | Value                  | TTL       |
+   |------------------|-------|------------------------|-----------|
+   | **A Record**     | `@`   | `76.76.21.21`          | Automatic |
+   | **CNAME Record** | `www` | `cname.vercel-dns.com` | Automatic |
 
-   Important: use **ALIAS Record** for the apex `@`, **not** `CNAME`.
-   DNS standards forbid `CNAME` at the root, and Namecheap will reject it.
-   ALIAS achieves the same result.
+   *Important:* use **A Record** for the apex `@` — Vercel gives you a real
+   IP for the root because DNS standards forbid `CNAME` at the apex.
 5. Click the green ✓ to save each row.
+6. Back in Vercel → Domains, the badges will flip from "Invalid Configuration"
+   to a green check once the DNS resolves. Usually 5–30 minutes; sometimes up
+   to an hour for stubborn ISP caches.
 
-## 6 · Wait for DNS + HTTPS (~5–60 min)
+## 5 · Wait for HTTPS (~5–15 min after DNS resolves)
 
-1. Test from your terminal:
-   ```bash
-   dig fineprintdoc.com +short
-   dig www.fineprintdoc.com +short
-   ```
-   You want both to resolve to Railway's address.
-2. Once DNS resolves, Railway issues a Let's Encrypt cert automatically.
-   The "Pending DNS" badges in Railway → Networking flip to green.
-3. Open <https://fineprintdoc.com>. The site should load over HTTPS.
+Vercel issues a Let's Encrypt cert automatically once DNS points at it. When
+the green checks appear in **Domains**, `https://fineprintdoc.com` works.
 
-## 7 · Final smoke test
+## 6 · Final smoke test
 
 - `https://fineprintdoc.com/` → homepage loads, EN/ES toggle works
 - `https://fineprintdoc.com/api/health` → `{ok: true, hasKey: true}`
-- `https://www.fineprintdoc.com/` → also works (Railway serves both)
-- `/app.html` → real analysis on a real contract
+- `https://www.fineprintdoc.com/` → also loads (Vercel handles both)
+- `/app.html` → real Claude analysis on a real contract
 
 ---
 
@@ -90,34 +103,53 @@ redeploy to finish.
 
 | Item | Cost |
 |---|---|
-| Railway (always-on Node service) | ~$5/month after the trial credit |
-| Anthropic API | roughly $0.01–0.05 per contract analysis (Sonnet 4.5) |
-| Namecheap | only the annual domain registration |
+| **Vercel** (Hobby tier) | **$0**. 100 GB bandwidth/mo, 100 GB-h functions/mo. Way past what this site will use early. |
+| **Anthropic API** | ~$0.01–0.05 per contract analysis. First $5 free for new accounts. |
+| **Namecheap** | Annual domain registration only. |
 
-If usage gets meaningful, set a monthly cap in Anthropic console
-(**Settings → Billing → Limits**) to avoid surprises.
+Set a monthly cap in Anthropic console (**Settings → Billing → Limits**) so
+runaway use doesn't surprise you.
+
+## Vercel free-tier limits worth knowing
+
+- **Request body limit**: 4.5 MB. We already cap uploads at 4 MB in
+  `server.js` to match. Most real-estate / lease / car PDFs are 1–3 MB.
+- **Function timeout**: 10 seconds on Hobby (we've set 30s in `vercel.json`,
+  Vercel caps to 10s for free anyway). PDFs that take too long will time out —
+  if that happens, paste the text instead.
+- **No persistent storage**. We don't store contracts anyway, so this is fine.
 
 ## Troubleshooting
 
-- **`ERR_CONNECTION_TIMED_OUT` even after waiting**: DNS hasn't propagated yet.
-  Try `dig fineprintdoc.com +short` — empty means still propagating. Some ISPs
-  cache for up to an hour.
-- **`502 Bad Gateway`**: Railway didn't boot. Check
-  **Deployments → View Logs** in Railway. Usually an env-var typo or a missing
-  dependency.
-- **`/api/analyze` returns `503`**: `ANTHROPIC_API_KEY` isn't set on the service.
-  Add it in **Variables**, wait for the redeploy.
-- **HTTPS warning ("Not secure")**: Railway hasn't issued the cert yet — wait 5
-  more minutes after DNS resolved. If it persists past 30 minutes, click
-  **Custom Domain → Refresh** in Railway.
-- **`www` redirects to apex (or vice versa) and you don't want that**: Railway
-  serves both as primaries by default. To redirect one to the other, add a
-  redirect rule in **Settings → Networking → Redirects**.
+- **`ERR_CONNECTION_TIMED_OUT`**: DNS still propagating. Test with
+  `dig fineprintdoc.com +short` — empty means not resolved yet.
+- **Vercel says "Invalid Configuration"**: DNS records aren't right. Re-check
+  the A-record points to the IP Vercel showed you. Stray Namecheap defaults
+  (URL Redirect) often interfere — delete them.
+- **`/api/analyze` returns `503`**: `ANTHROPIC_API_KEY` is missing from the
+  Production environment in Vercel. Add it under
+  **Settings → Environment Variables**, then redeploy.
+- **`/api/analyze` returns `413` or `FUNCTION_PAYLOAD_TOO_LARGE`**: the PDF
+  is over 4.5 MB. Paste the text instead, or split the PDF.
+- **`/api/analyze` returns `504` (timeout)**: PDF parsing + Claude took longer
+  than 10 seconds. Same workaround: paste text instead of uploading the PDF.
 
-## Alternative hosts (if Railway doesn't suit you)
+## Alternative free hosts (if Vercel doesn't suit you)
 
-- **Render** — almost identical flow, slightly slower cold-starts.
-- **Fly.io** — needs a `Dockerfile`, more control, similar price.
-- **Vercel** — would require splitting the Express endpoint into a serverless
-  function (`api/analyze.js`). Worth it only if you want global edge static
-  delivery; for this app, Railway is simpler.
+- **Cloudflare Pages + Workers** — better edge performance, but Workers don't
+  run Node and would need a rewrite (no `pdf-parse`).
+- **Render free tier** — works as-is, but the service sleeps after 15 minutes
+  of inactivity. First request after sleep waits 30–60 s. Bad UX for users.
+- **Koyeb free tier** — one always-on instance, no spin-down, works with our
+  Express app as-is. Less mature than Vercel.
+
+## Running locally (unchanged)
+
+Local development still works the same — Vercel-aware refactor is purely
+additive:
+
+```bash
+cp .env.example .env       # add ANTHROPIC_API_KEY
+npm install
+npm start                   # http://localhost:3000
+```

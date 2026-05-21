@@ -19,7 +19,7 @@ import Anthropic from "@anthropic-ai/sdk";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 3000;
-const MODEL = process.env.FinePrint_MODEL || "claude-sonnet-4-5";
+const MODEL = process.env.FINEPRINT_MODEL || "claude-sonnet-4-5";
 
 if (!process.env.ANTHROPIC_API_KEY) {
     console.warn("\n[fineprint] WARNING: ANTHROPIC_API_KEY is not set. /api/analyze will return 503.\n");
@@ -31,9 +31,13 @@ const app = express();
 app.use(express.json({ limit: "2mb" }));
 app.use(express.urlencoded({ extended: true, limit: "2mb" }));
 
+// File-size cap: 4 MB. Matches Vercel free-tier body limit (~4.5 MB).
+// Most real-estate / lease / car PDFs are 1–3 MB. On Railway / Fly / a real
+// VPS this can be raised — but parity between local and prod keeps surprises
+// out of the demo.
 const upload = multer({
     storage: multer.memoryStorage(),
-    limits: { fileSize: 25 * 1024 * 1024 }, // 25 MB
+    limits: { fileSize: 4 * 1024 * 1024 },
 });
 
 /* -------------------- Health -------------------- */
@@ -244,6 +248,17 @@ app.use((req, res) => {
     res.status(404).json({ error: "Not found" });
 });
 
-app.listen(PORT, () => {
-    console.log(`\nFinePrint running at  http://localhost:${PORT}\n`);
-});
+// Export the app so Vercel (api/index.js) can wrap it as a serverless function.
+// Only call listen() when this file is executed directly (`node server.js` or
+// `npm start`), not when it's imported as a module by the serverless wrapper.
+const isDirectRun =
+    import.meta.url === `file://${process.argv[1]?.replace(/\\/g, "/")}` ||
+    process.argv[1]?.endsWith("server.js");
+
+if (isDirectRun) {
+    app.listen(PORT, () => {
+        console.log(`\nFinePrint running at  http://localhost:${PORT}\n`);
+    });
+}
+
+export default app;
