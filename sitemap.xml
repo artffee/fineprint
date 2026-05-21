@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+    <url>
+        <loc>https://fineprintdoc.com/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://fineprintdoc.com/" />
+        <xhtml:link rel="alternate" hreflang="es" href="https://fineprintdoc.com/?lang=es" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://fineprintdoc.com/" />
+    </url>
+
+    <url>
+        <loc>https://fineprintdoc.com/app.html</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.95</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://fineprintdoc.com/app.html" />
+        <xhtml:link rel="alternate" hreflang="es" href="https://fineprintdoc.com/app.html?lang=es" />
+    </url>
+
+    <url>
+        <loc>https://fineprintdoc.com/real-estate.html</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://fineprintdoc.com/real-estate.html" />
+        <xhtml:link rel="alternate" hreflang="es" href="https://fineprintdoc.com/real-estate.html?lang=es" />
+    </url>
+
+    <url>
+        <loc>https://fineprintdoc.com/rent.html</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://fineprintdoc.com/rent.html" />
+        <xhtml:link rel="alternate" hreflang="es" href="https://fineprintdoc.com/rent.html?lang=es" />
+    </url>
+
+    <url>
+        <loc>https://fineprintdoc.com/car.html</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://fineprintdoc.com/car.html" />
+        <xhtml:link rel="alternate" hreflang="es" href="https://fineprintdoc.com/car.html?lang=es" />
+    </url>
+
+    <url>
+        <loc>https://fineprintdoc.com/how-it-works.html</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://fineprintdoc.com/how-it-works.html" />
+        <xhtml:link rel="alternate" hreflang="es" href="https://fineprintdoc.com/how-it-works.html?lang=es" />
+    </url>
+
+    <url>
+        <loc>https://fineprintdoc.com/pricing.html</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://fineprintdoc.com/pricing.html" />
+        <xhtml:link rel="alternate" hreflang="es" href="https://fineprintdoc.com/pricing.html?lang=es" />
+    </url>
+
+    <url>
+        <loc>https://fineprintdoc.com/about.html</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://fineprintdoc.com/about.html" />
+        <xhtml:link rel="alternate" hreflang="es" href="https://fineprintdoc.com/about.html?lang=es" />
+    </url>
+
+    <url>
+        <loc>https://fineprintdoc.com/privacy.html</loc>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+
+    <url>
+        <loc>https://fineprintdoc.com/terms.html</loc>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+
+</urlset>

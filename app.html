@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analyze Free · FinePrint — AI Contract Reader</title>
+    <meta name="description" content="Upload a real-estate, rent, or car contract. Get a plain-English risk read in 90 seconds. Free, no account." />
+    <link rel="canonical" href="https://fineprintdoc.com/app.html" />
+    <link rel="alternate" hreflang="en" href="https://fineprintdoc.com/app.html" />
+    <link rel="alternate" hreflang="es" href="https://fineprintdoc.com/app.html?lang=es" />
+    <link rel="alternate" hreflang="x-default" href="https://fineprintdoc.com/app.html" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+    <meta name="author" content="FinePrint Inc." />
+    <meta property="og:title" content="Analyze Free · FinePrint — AI Contract Reader" />
+    <meta property="og:description" content="Upload a real-estate, rent, or car contract. Get a plain-English risk read in 90 seconds. Free, no account." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://fineprintdoc.com/app.html" />
+    <meta property="og:image" content="https://fineprintdoc.com/og-image.svg" />
+    <meta property="og:site_name" content="FinePrint" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="es_ES" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Analyze Free · FinePrint — AI Contract Reader" />
+    <meta name="twitter:description" content="Upload a real-estate, rent, or car contract. Get a plain-English risk read in 90 seconds. Free, no account." />
+    <meta name="twitter:image" content="https://fineprintdoc.com/og-image.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,900&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;700;800&display=swap" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+
+    <a class="skip-link" href="#main" data-i18n="nav.skip">Skip to content</a>
+
+    <nav class="nav" aria-label="Primary">
+        <div class="wrap nav__inner">
+            <a href="index.html" class="brand">
+                <span class="brand__mark">FinePrint</span>
+                <span class="brand__sub">Contract Reader</span>
+            </a>
+            <ul class="nav__links">
+                <li><a class="nav__link" href="how-it-works.html" data-i18n="nav.how">How It Works</a></li>
+                <li><a class="nav__link" href="real-estate.html" data-i18n="nav.realestate">Real Estate</a></li>
+                <li><a class="nav__link" href="rent.html" data-i18n="nav.rent">Rent</a></li>
+                <li><a class="nav__link" href="car.html" data-i18n="nav.car">Car</a></li>
+                <li><a class="nav__link" href="about.html" data-i18n="nav.about">About</a></li>
+                            <li class="lang-toggle" role="group" aria-label="Language">
+                    <button data-lang-btn="en" type="button">EN</button>
+                    <button data-lang-btn="es" type="button">ES</button>
+                </li>
+            </ul>
+            <button class="nav__hamburger" aria-label="Open menu" data-i18n-attr="aria-label:nav.open_menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <main id="main" class="app-shell" data-analyzer>
+        <div class="wrap">
+            <div style="max-width: 760px; margin: 0 auto 56px; text-align: center;">
+                <div class="kicker" style="justify-content: center;"><span class="kicker__num">§</span> <span data-i18n="app.kicker">Free Analyzer</span></div>
+                <h1 style="color: var(--cream); font-size: clamp(44px, 6vw, 72px); margin-bottom: 24px;" data-i18n="app.title">Analyze your contract.</h1>
+                <p style="color: rgba(250, 250, 250,0.65); font-family: var(--mono); font-size: clamp(15px, 1.4vw, 17px); line-height: 1.7; max-width: 56ch; margin: 0 auto;" data-i18n="app.sub">Upload a PDF or paste the text. Choose your side of the table. Get a plain-English risk read in ninety seconds. Your contract is processed and discarded — we don't store it.</p>
+            </div>
+
+            <form class="app-grid">
+                <!-- Left column: input -->
+                <div class="upload">
+                    <h2 data-i18n="app.section1">One · Your Contract</h2>
+
+                    <label class="drop" data-drop tabindex="0">
+                        <input type="file" name="file" accept=".pdf,.txt,.doc,.docx,image/*" />
+                        <div class="drop__icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                                <line x1="12" y1="18" x2="12" y2="12"/>
+                                <polyline points="9 15 12 12 15 15"/>
+                            </svg>
+                        </div>
+                        <div class="drop__label" data-i18n="app.drop_label">Drop a PDF — or click</div>
+                        <p class="drop__hint" data-i18n="app.drop_hint">PDF, DOCX, TXT, or image · up to 25 MB</p>
+                    </label>
+
+                    <div class="divider-label" data-i18n="app.divider">or paste below</div>
+
+                    <div class="field">
+                        <label for="text" data-i18n="app.text_label">Contract text</label>
+                        <textarea id="text" name="text" placeholder="Paste the full contract text. Even partial sections work — FinePrint will read what you give it." data-i18n-attr="placeholder:app.text_ph"></textarea>
+                    </div>
+
+                    <h2 style="margin-top: 44px;" data-i18n="app.section2">Two · What kind of contract</h2>
+                    <div class="field">
+                        <label for="contract_type" data-i18n="app.type_label">Contract type</label>
+                        <select id="contract_type" name="contract_type">
+                            <option value="real-estate" data-i18n="app.type_re">Real estate (purchase / FSBO)</option>
+                            <option value="rent" data-i18n="app.type_rent">Rent / lease agreement</option>
+                            <option value="car" data-i18n="app.type_car">Car (purchase or lease)</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="party" data-i18n="app.party_label">Read from the side of</label>
+                        <select id="party" name="party">
+                            <option value="buyer">Buyer</option>
+                            <option value="seller">Seller</option>
+                            <option value="investor">Investor</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="notes" data-i18n="app.notes_label">Anything specific to look for? (optional)</label>
+                        <input id="notes" name="notes" type="text" placeholder="e.g. deposit terms, late fees, mileage cap" data-i18n-attr="placeholder:app.notes_ph" />
+                    </div>
+
+                    <button type="submit" class="btn btn--primary btn--block btn--large" style="margin-top: 24px;" data-i18n="app.submit">
+                        Analyze Contract
+                    </button>
+
+                    <p style="font-size: 10px; color: var(--stone); text-align: center; margin: 22px 0 0; letter-spacing: 0.28em; text-transform: uppercase; font-family: var(--sans); font-weight: 700;" data-i18n="app.foot">
+                        Free · Stateless · Open source
+                    </p>
+                </div>
+
+                <!-- Right column: results -->
+                <div class="result" data-result>
+                    <div class="result__empty">
+                        <div class="empty-mark" aria-hidden="true">
+                            <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="18" y="12" width="44" height="56"/>
+                                <line x1="26" y1="26" x2="54" y2="26"/>
+                                <line x1="26" y1="34" x2="54" y2="34"/>
+                                <line x1="26" y1="42" x2="44" y2="42"/>
+                                <line x1="26" y1="50" x2="50" y2="50"/>
+                                <line x1="26" y1="58" x2="38" y2="58"/>
+                            </svg>
+                        </div>
+                        <p class="empty-title" data-i18n="app.empty_title">Your report will appear here.</p>
+                        <ol class="empty-steps">
+                            <li><span class="empty-steps__num">01</span> <span data-i18n="app.empty_1">Upload a PDF, or paste the text</span></li>
+                            <li><span class="empty-steps__num">02</span> <span data-i18n="app.empty_2">Pick your side</span></li>
+                            <li><span class="empty-steps__num">03</span> <span data-i18n="app.empty_3">Click <em>Analyze Contract</em></span></li>
+                            <li><span class="empty-steps__num">04</span> <span data-i18n="app.empty_4">Read the briefing</span></li>
+                        </ol>
+                    </div>
+                </div>
+            </form>
+
+            <div style="margin-top: 80px; max-width: 880px; margin-left: auto; margin-right: auto; display: grid; gap: 16px;">
+                <div class="helper-note">
+                    <strong>What happens to my contract?</strong>
+                    Nothing, after it's read. The file is sent to the analyzer, processed in memory, and the response is returned to you. We don't keep a copy. For full sovereignty, self-host the open-source engine — <a href="https://github.com/fineprintdoc/fineprint" target="_blank" rel="noopener" class="link-gold">github.com/fineprintdoc/fineprint</a>.
+                </div>
+                <div class="helper-note">
+                    <strong data-i18n="footer.disc_strong">A helper, not a lawyer</strong>
+                        <span data-i18n="footer.disc">FinePrint is a sharper read of your contract. It surfaces what's worth asking about — not a legal opinion. For binding decisions on your deal, please bring this to a licensed real-estate attorney in your state. We make their time more valuable.
+                </span></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="wrap">
+            <div class="footer__bottom" style="border: 0; padding-top: 0;">
+                <div>© <span data-year>2026</span> FinePrint Inc. · MIT Licensed · <a href="index.html">Back to home</a></div>
+                <div><a href="privacy.html" data-i18n="footer.f_privacy">Privacy</a> · <a href="terms.html" data-i18n="footer.f_terms">Terms</a></div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/i18n.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

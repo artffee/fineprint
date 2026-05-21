@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>OG Image · FINEPRINT</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,900&family=DM+Mono:wght@400&family=Syne:wght@700;800&display=swap" />
+    <style>
+        html, body { margin: 0; padding: 0; background: #555; }
+        body { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
+        .frame {
+            width: 1200px; height: 630px;
+            background: linear-gradient(135deg, #13110E 0%, #1E1A16 100%);
+            position: relative; overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+        }
+        .frame::before {
+            content: ""; position: absolute; top: 0; right: 0; width: 70%; height: 70%;
+            background: radial-gradient(circle at top right, rgba(201,168,76,0.2), transparent 60%);
+            pointer-events: none;
+        }
+        .bar { position: absolute; top: 0; left: 0; width: 12px; height: 100%; background: #C9A84C; }
+        .brand-row { position: absolute; left: 64px; top: 80px; color: #C9A84C; font-family: "Syne", sans-serif; font-weight: 800; font-size: 22px; letter-spacing: 6px; }
+        .brand-row .sub { display: block; margin-top: 8px; font-size: 13px; letter-spacing: 5px; color: #8C7B6B; }
+        .headline {
+            position: absolute; left: 64px; top: 200px;
+            font-family: "Playfair Display", serif; font-weight: 900;
+            font-size: 76px; line-height: 1.06; color: #F7F3EC; letter-spacing: -0.02em;
+            max-width: 640px;
+        }
+        .headline .accent { color: #C9A84C; font-style: italic; }
+        .sub {
+            position: absolute; left: 64px; top: 506px;
+            font-family: "DM Mono", monospace; font-size: 21px; color: #8C7B6B;
+        }
+        .badge {
+            position: absolute; left: 64px; top: 562px;
+            border: 1.5px solid #C9A84C; padding: 10px 22px;
+            font-family: "Syne", sans-serif; font-weight: 800; font-size: 12px;
+            letter-spacing: 3px; color: #C9A84C;
+        }
+        .term {
+            position: absolute; right: 60px; top: 180px;
+            width: 420px; background: #0A0907; border: 1px solid rgba(201,168,76,0.22);
+            font-family: "DM Mono", monospace; color: #F7F3EC;
+        }
+        .term__bar { display: flex; align-items: center; padding: 9px 14px; background: #1A1714; gap: 8px; }
+        .term__bar i { display:block; width: 9px; height: 9px; border-radius: 50%; }
+        .term__bar i.r { background: #B5451B; }
+        .term__bar i.y { background: #D4841A; }
+        .term__bar i.g { background: #1E7A4A; }
+        .term__bar .t { margin-left: 12px; font-family: "Syne", sans-serif; font-weight: 700; font-size: 9px; letter-spacing: 3px; color: #8C7B6B; }
+        .term__body { padding: 22px 24px; font-size: 13px; line-height: 1.85; }
+        .term__body .p { color: #C9A84C; }
+        .term__body .d { color: #8C7B6B; }
+        .term__body .a { color: #D4841A; }
+        .term__body .c { color: #C0392B; }
+        .term__body .h { color: #B5451B; }
+        .term__body .m { color: #D4841A; }
+        .term__body .v { color: #1E7A4A; margin-top: 12px; }
+
+        .hint { position: fixed; bottom: 20px; left: 20px; color: #fff; font-family: monospace; font-size: 12px; opacity: 0.7; }
+    </style>
+</head>
+<body>
+    <div class="frame">
+        <div class="bar"></div>
+        <div class="brand-row">FINEPRINT<span class="sub">Contract Reader</span></div>
+
+        <div class="headline">
+            Know what<br/>you're signing<br/><span class="accent">before you sign.</span>
+        </div>
+
+        <div class="sub">Free AI real-estate contract analysis · 90 seconds · Open source</div>
+        <div class="badge">MIT LICENSED · GITHUB</div>
+
+        <div class="term">
+            <div class="term__bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="t">FINEPRINT · LIVE DEMO</span></div>
+            <div class="term__body">
+                <div class="p">$ fineprint analyze contract.pdf</div>
+                <div class="d">» extracting 47 clauses ......</div>
+                <div class="d">» scoring risk ...............</div>
+                <div class="d">» translating ................</div>
+                <div class="a">── RISK SCORE: 7.4 / 10 ──</div>
+                <div class="c">● CRITICAL  Earnest money</div>
+                <div class="h">● HIGH      Inspection 5 days</div>
+                <div class="m">● MEDIUM    HOA late delivery</div>
+                <div class="v">VERDICT  Negotiate before signing.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hint">
+        Take a 1200×630 screenshot of just the dark card above for og-image.png · or use the og-image.svg directly.
+    </div>
+</body>
+</html>

@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FinePrint — Free AI Contract Reader for Real Estate, Rent &amp; Car</title>
+    <meta name="description" content="Upload any real-estate, lease, or vehicle contract. Get a plain-English risk read in ninety seconds. Free. No account. Open-source. EN/ES." />
+    <link rel="canonical" href="https://fineprintdoc.com/" />
+    <link rel="alternate" hreflang="en" href="https://fineprintdoc.com/" />
+    <link rel="alternate" hreflang="es" href="https://fineprintdoc.com/?lang=es" />
+    <link rel="alternate" hreflang="x-default" href="https://fineprintdoc.com/" />
+    <meta name="keywords" content="AI contract analyzer, real estate contract review, lease analyzer, car purchase contract review, free contract review, AI lawyer alternative, FSBO contract, rental agreement review, vehicle purchase contract, lease agreement AI" />
+    <meta name="author" content="FinePrint Inc." />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+    <meta property="og:title" content="FinePrint — Know what you're signing before you sign." />
+    <meta property="og:description" content="Free AI contract reader. Real estate, rent, and car contracts read in ninety seconds — in English or Spanish." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="og-image.svg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:url" content="https://fineprintdoc.com/" />
+    <meta property="og:site_name" content="FinePrint" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="es_ES" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="FinePrint — Know what you're signing before you sign." />
+    <meta name="twitter:description" content="Free AI contract reader. Real estate, rent, and car contracts in 90 seconds." />
+    <meta name="twitter:image" content="og-image.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,900&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;700;800&display=swap" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Organization",
+                "@id": "https://fineprintdoc.com/#org",
+                "name": "FinePrint",
+                "legalName": "FinePrint Inc.",
+                "url": "https://fineprintdoc.com/",
+                "logo": "https://fineprintdoc.com/favicon.svg",
+                "email": "founders@fineprintdoc.com",
+                "sameAs": ["https://github.com/fineprintdoc/fineprint"]
+            },
+            {
+                "@type": "WebSite",
+                "@id": "https://fineprintdoc.com/#site",
+                "url": "https://fineprintdoc.com/",
+                "name": "FinePrint",
+                "publisher": { "@id": "https://fineprintdoc.com/#org" },
+                "inLanguage": ["en", "es"]
+            },
+            {
+                "@type": "SoftwareApplication",
+                "name": "FinePrint",
+                "description": "Free AI contract reader for real estate, rent and car agreements. Plain-English risk reports in 90 seconds.",
+                "applicationCategory": "BusinessApplication",
+                "operatingSystem": "Any (web)",
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
+                },
+                "url": "https://fineprintdoc.com/app.html",
+                "publisher": { "@id": "https://fineprintdoc.com/#org" },
+                "inLanguage": ["en", "es"]
+            }
+        ]
+    }
+    </script>
+</head>
+<body>
+
+    <a class="skip-link" href="#main" data-i18n="nav.skip">Skip to content</a>
+
+    <nav class="nav" aria-label="Primary">
+        <div class="wrap nav__inner">
+            <a href="index.html" class="brand">
+                <span class="brand__mark">FinePrint</span>
+                <span class="brand__sub">Contract Reader</span>
+            </a>
+            <ul class="nav__links">
+                <li><a class="nav__link" href="how-it-works.html" data-i18n="nav.how">How It Works</a></li>
+                <li><a class="nav__link" href="real-estate.html" data-i18n="nav.realestate">Real Estate</a></li>
+                <li><a class="nav__link" href="rent.html" data-i18n="nav.rent">Rent</a></li>
+                <li><a class="nav__link" href="car.html" data-i18n="nav.car">Car</a></li>
+                <li><a class="nav__link" href="about.html" data-i18n="nav.about">About</a></li>
+                <li class="lang-toggle" role="group" aria-label="Language">
+                    <button data-lang-btn="en" type="button">EN</button>
+                    <button data-lang-btn="es" type="button">ES</button>
+                </li>
+                <li><a class="btn btn--primary" href="app.html" data-i18n="nav.analyze">Analyze Free</a></li>
+            </ul>
+            <button class="nav__hamburger" aria-label="Open menu" data-i18n-attr="aria-label:nav.open_menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <main id="main">
+
+        <!-- ============ HERO ============ -->
+        <header class="hero">
+            <div class="wrap">
+                <div class="hero__grid">
+                    <div>
+                        <span class="hero__oss reveal" data-i18n="hero.badge">FREE · OPEN SOURCE · MIT</span>
+                        <h1 class="reveal reveal--delay-1" data-i18n="hero.title">Know what<br/>you're signing <span class="accent">before</span><br/>you sign.</h1>
+                        <p class="hero__sub reveal reveal--delay-2" data-i18n="hero.sub">Drop a real-estate, rental, or vehicle contract into FinePrint. In ninety seconds you get a plain-English risk read, the three things worth negotiating, and a verdict you can take to your attorney.</p>
+                        <div class="hero__cta reveal reveal--delay-3">
+                            <a class="btn btn--primary btn--large" href="app.html" data-i18n="hero.cta_primary">Analyze a Contract</a>
+                            <a class="btn btn--outline btn--large" href="how-it-works.html" data-i18n="hero.cta_secondary">See how it reads</a>
+                        </div>
+                        <div class="hero__meta reveal reveal--delay-4">
+                            <span data-i18n="hero.meta_account">No account</span>
+                            <span data-i18n="hero.meta_free">Free, always</span>
+                            <span data-i18n="hero.meta_speed">Ninety-second read</span>
+                        </div>
+                    </div>
+
+                    <div class="reveal reveal--delay-2">
+                        <div class="terminal" data-terminal>
+                            <div class="terminal__bar">
+                                <span class="terminal__dot" style="background: #71717A;"></span>
+                                <span class="terminal__dot" style="background: #A1A1AA;"></span>
+                                <span class="terminal__dot" style="background: #C9A84C;"></span>
+                                <span class="terminal__title">fineprint · live read</span>
+                            </div>
+                            <div class="terminal__body"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- ============ PROMISE STRIP ============ -->
+        <section class="promise">
+            <div class="wrap">
+                <div class="promise__grid">
+                    <div class="promise__item reveal">
+                        <div class="promise__num">3</div>
+                        <div class="promise__label" data-i18n="promise.types">Contract types</div>
+                    </div>
+                    <div class="promise__item reveal reveal--delay-1">
+                        <div class="promise__num">90<small style="font-family:var(--mono);font-size:18px;font-style:normal;font-weight:400;color:var(--stone);">s</small></div>
+                        <div class="promise__label" data-i18n="promise.time">Avg. analysis time</div>
+                    </div>
+                    <div class="promise__item reveal reveal--delay-2">
+                        <div class="promise__num">$0</div>
+                        <div class="promise__label" data-i18n="promise.cost">What it costs</div>
+                    </div>
+                    <div class="promise__item reveal reveal--delay-3">
+                        <div class="promise__num">MIT</div>
+                        <div class="promise__label" data-i18n="promise.license">License · open source</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ THREE CONTRACT TYPES ============ -->
+        <section class="section">
+            <div class="wrap">
+                <div class="section-head reveal">
+                    <div class="kicker"><span class="kicker__num">§ 01</span> <span data-i18n="types.kicker">What It Reads</span></div>
+                    <h2 data-i18n="types.title">Three contracts most people<br/><span class="italic-accent">sign without reading.</span></h2>
+                    <p class="lead" data-i18n="types.lead">Different paperwork, same problem: long, dense, and tilted toward whoever drafted it. FinePrint reads each one against the standards for that type of agreement.</p>
+                </div>
+
+                <div class="type-grid">
+                    <a href="real-estate.html" class="type-card reveal">
+                        <div class="type-card__num">i.</div>
+                        <div class="type-card__icon" aria-hidden="true">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M6 22 L24 8 L42 22 V40 H30 V28 H18 V40 H6 Z"/>
+                            </svg>
+                        </div>
+                        <h3 class="type-card__title" data-i18n="types.re_title">Real estate</h3>
+                        <p class="type-card__body" data-i18n="types.re_body">Purchase agreements, FSBO contracts, listing agreements. Earnest money, inspection, financing, title, HOA, closing.</p>
+                        <div class="type-card__cta"><span data-i18n="types.re_cta">Read about real estate</span> <span aria-hidden="true">→</span></div>
+                    </a>
+
+                    <a href="rent.html" class="type-card reveal reveal--delay-1">
+                        <div class="type-card__num">ii.</div>
+                        <div class="type-card__icon" aria-hidden="true">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M8 18 V40 H40 V18"/>
+                                <path d="M4 22 L24 6 L44 22"/>
+                                <rect x="20" y="28" width="8" height="12"/>
+                            </svg>
+                        </div>
+                        <h3 class="type-card__title" data-i18n="types.rent_title">Rent &amp; lease</h3>
+                        <p class="type-card__body" data-i18n="types.rent_body">Apartment leases, sublets, co-signer guarantees. Deposit caps, late fees, entry rules, early-termination penalties.</p>
+                        <div class="type-card__cta"><span data-i18n="types.rent_cta">Read about rent</span> <span aria-hidden="true">→</span></div>
+                    </a>
+
+                    <a href="car.html" class="type-card reveal reveal--delay-2">
+                        <div class="type-card__num">iii.</div>
+                        <div class="type-card__icon" aria-hidden="true">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M6 28 L10 18 H38 L42 28 V36 H38 V32 H10 V36 H6 Z"/>
+                                <circle cx="14" cy="36" r="3"/>
+                                <circle cx="34" cy="36" r="3"/>
+                            </svg>
+                        </div>
+                        <h3 class="type-card__title" data-i18n="types.car_title">Car</h3>
+                        <p class="type-card__body" data-i18n="types.car_body">New and used vehicle purchase, lease agreements, private sales. APR, add-ons, arbitration, mileage caps, GAP, lemon-law.</p>
+                        <div class="type-card__cta"><span data-i18n="types.car_cta">Read about car</span> <span aria-hidden="true">→</span></div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ HOW IT WORKS ============ -->
+        <section class="section section--dark">
+            <div class="wrap">
+                <div class="how__grid">
+                    <div class="reveal">
+                        <div class="kicker"><span class="kicker__num">§ 02</span> <span data-i18n="how.kicker">The Read</span></div>
+                        <h2 style="color: var(--cream);" data-i18n="how.title">A second pair of eyes.<br/><span class="italic-accent">In ninety seconds.</span></h2>
+                        <p class="lead" style="margin-bottom: 32px;" data-i18n="how.lead">FinePrint reads contracts the way a senior attorney in the relevant practice area would — clause by clause, in context, against your side of the table. It surfaces what's worth a closer look so your attorney's time is spent on the questions that matter.</p>
+                        <hr class="rule"/>
+                        <ol class="steps">
+                            <li>
+                                <h3 data-i18n="how.step1_t">Bring the contract</h3>
+                                <p data-i18n="how.step1_p">PDF, image, or pasted text — real estate, rent, or car.</p>
+                            </li>
+                            <li>
+                                <h3 data-i18n="how.step2_t">Pick the type and your side</h3>
+                                <p data-i18n="how.step2_p">Buyer or tenant or lessee — FinePrint reframes the same clause from your perspective.</p>
+                            </li>
+                            <li>
+                                <h3 data-i18n="how.step3_t">Read the briefing</h3>
+                                <p data-i18n="how.step3_p">A risk score, the three to seven things worth flagging, and a one-paragraph verdict.</p>
+                            </li>
+                            <li>
+                                <h3 data-i18n="how.step4_t">Take it to your attorney</h3>
+                                <p data-i18n="how.step4_p">Bring the report. Ask the sharp questions. Sign — or don't — with eyes open.</p>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="reveal reveal--delay-1">
+                        <div class="report">
+                            <div class="report__head">
+                                <div>
+                                    <div class="report__meta">Specimen · 24 Oak Street</div>
+                                    <div class="report__meta report__meta--gold">Real estate · try a perspective</div>
+                                </div>
+                            </div>
+
+                            <div class="party-toggle" data-party-toggle>
+                                <button data-party="buyer" class="is-active">Buyer</button>
+                                <button data-party="seller">Seller</button>
+                                <button data-party="investor">Investor</button>
+                            </div>
+
+                            <div data-party-report="buyer">
+                                <div class="report__score report__score--rust">
+                                    <div>
+                                        <div class="report__score-num" style="color: var(--rust);">7.4</div>
+                                        <div class="report__score-label">Risk Score · HIGH</div>
+                                    </div>
+                                    <div class="report__meta report__meta--right">3 flags<br/>2 priority</div>
+                                </div>
+                                <div class="flag flag--critical">
+                                    <div class="flag__head">
+                                        <span class="badge badge--critical">critical</span>
+                                        <span class="flag__title">Earnest-money trap</span>
+                                    </div>
+                                    <p class="flag__plain">Fifteen-thousand-dollar deposit becomes non-refundable in seventy-two hours — before the inspection is complete.</p>
+                                </div>
+                                <div class="flag flag--high">
+                                    <div class="flag__head">
+                                        <span class="badge badge--high">high</span>
+                                        <span class="flag__title">Inspection window too short</span>
+                                    </div>
+                                    <p class="flag__plain">Five-day inspection period against a ten-day industry standard. Push back.</p>
+                                </div>
+                                <div class="flag flag--medium">
+                                    <div class="flag__head">
+                                        <span class="badge badge--medium">medium</span>
+                                        <span class="flag__title">HOA documents delivered late</span>
+                                    </div>
+                                    <p class="flag__plain">Forty-eight hours pre-close is not enough time to read the bylaws.</p>
+                                </div>
+                                <div class="report__verdict">
+                                    <strong>Verdict</strong>
+                                    Don't sign as written. Three changes worth the conversation before earnest money is deposited.
+                                </div>
+                            </div>
+
+                            <div data-party-report="seller" class="hidden">
+                                <div class="report__score report__score--amber">
+                                    <div>
+                                        <div class="report__score-num" style="color: var(--amber);">3.8</div>
+                                        <div class="report__score-label">Risk Score · MEDIUM</div>
+                                    </div>
+                                    <div class="report__meta report__meta--right">3 flags<br/>1 priority</div>
+                                </div>
+                                <div class="flag flag--high">
+                                    <div class="flag__head">
+                                        <span class="badge badge--high">high</span>
+                                        <span class="flag__title">Uncapped repair credit</span>
+                                    </div>
+                                    <p class="flag__plain">Unlimited exposure post-inspection. Cap it at five thousand or convert to a flat credit.</p>
+                                </div>
+                                <div class="flag flag--medium">
+                                    <div class="flag__head">
+                                        <span class="badge badge--medium">medium</span>
+                                        <span class="flag__title">Closing date is buyer-flexible</span>
+                                    </div>
+                                    <p class="flag__plain">The buyer can drag closing. Set a firm date with per-diem fees.</p>
+                                </div>
+                                <div class="flag flag--medium">
+                                    <div class="flag__head">
+                                        <span class="badge badge--medium">medium</span>
+                                        <span class="flag__title">Ambiguous personal property</span>
+                                    </div>
+                                    <p class="flag__plain">Spell out which appliances convey — don't leave it to "attached nature".</p>
+                                </div>
+                                <div class="report__verdict">
+                                    <strong>Verdict</strong>
+                                    Favourable terms overall. One quick fix to bound your repair exposure.
+                                </div>
+                            </div>
+
+                            <div data-party-report="investor" class="hidden">
+                                <div class="report__score report__score--rust">
+                                    <div>
+                                        <div class="report__score-num" style="color: var(--rust);">5.6</div>
+                                        <div class="report__score-label">Risk Score · MEDIUM-HIGH</div>
+                                    </div>
+                                    <div class="report__meta report__meta--right">3 flags<br/>2 priority</div>
+                                </div>
+                                <div class="flag flag--high">
+                                    <div class="flag__head">
+                                        <span class="badge badge--high">high</span>
+                                        <span class="flag__title">Assignment is restricted</span>
+                                    </div>
+                                    <p class="flag__plain">You cannot wholesale this contract. Add "and/or assigns" to the name line.</p>
+                                </div>
+                                <div class="flag flag--high">
+                                    <div class="flag__head">
+                                        <span class="badge badge--high">high</span>
+                                        <span class="flag__title">Title insurance pushed to buyer</span>
+                                    </div>
+                                    <p class="flag__plain">Adds roughly fifteen hundred dollars to closing. Renegotiate — seller normally pays in this market.</p>
+                                </div>
+                                <div class="flag flag--medium">
+                                    <div class="flag__head">
+                                        <span class="badge badge--medium">medium</span>
+                                        <span class="flag__title">Broad as-is clause</span>
+                                    </div>
+                                    <p class="flag__plain">Hidden defects post-close are your problem. Price accordingly.</p>
+                                </div>
+                                <div class="report__verdict">
+                                    <strong>Verdict</strong>
+                                    Workable for a long hold. Difficult for a flip. Renegotiate or pass.
+                                </div>
+                            </div>
+
+                            <div class="report__meta" style="text-align: center; margin-top: 24px; color: rgba(250, 250, 250, 0.32);">
+                                Specimen output. Upload yours for the real read.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ TESTIMONIALS ============ -->
+        <section class="section section--paper">
+            <div class="wrap">
+                <div class="section-head reveal" style="text-align: center;">
+                    <div class="kicker" style="justify-content: center;"><span class="kicker__num">§ 03</span> <span data-i18n="testi.kicker">The Effect</span></div>
+                    <h2 data-i18n="testi.title">From "what does this mean"<br/>to <span class="italic-accent">"here's what to ask."</span></h2>
+                </div>
+                <div class="testimonials">
+                    <figure class="quote reveal">
+                        <blockquote class="quote__body">FinePrint caught a seventy-two-hour earnest-money clause my agent had glossed over. Saved my fifteen-thousand-dollar deposit when financing got delayed.</blockquote>
+                        <figcaption class="quote__by">M. Rivera · First-time buyer, Austin TX</figcaption>
+                    </figure>
+                    <figure class="quote reveal reveal--delay-1">
+                        <blockquote class="quote__body">My landlord wanted two and a half months as a deposit. FinePrint flagged it as unenforceable in my state. I came back with a screenshot of the law and they cut it to one month.</blockquote>
+                        <figcaption class="quote__by">K. Park · Tenant, Boston MA</figcaption>
+                    </figure>
+                    <figure class="quote reveal reveal--delay-2">
+                        <blockquote class="quote__body">The dealer had bundled four thousand dollars of add-ons into the contract. FinePrint itemised them in plain English. We argued for an hour and left with the price I'd actually agreed to.</blockquote>
+                        <figcaption class="quote__by">J. Okafor · Car buyer, Atlanta GA</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ OPEN SOURCE ============ -->
+        <section class="section section--light">
+            <div class="wrap">
+                <div class="oss-block reveal">
+                    <div class="kicker" style="justify-content: center; margin-bottom: 40px;"><span class="kicker__num">§ 04</span> <span data-i18n="oss.kicker">Open Source</span></div>
+                    <h2 data-i18n="oss.title">Audit every line. <span class="italic-accent">Run your own.</span></h2>
+                    <hr class="rule rule--center"/>
+                    <p class="lead" data-i18n="oss.lead">The engine, the prompts, the risk taxonomies for all three contract types — public on GitHub under MIT license. Self-host if you want sovereignty over the data. Fork if you want to ship your own version. We're not gating clarity behind a paywall, and we don't intend to.</p>
+                    <div class="hero__cta" style="justify-content: center;">
+                        <a class="btn btn--primary btn--large" href="https://github.com/fineprintdoc/fineprint" target="_blank" rel="noopener" data-i18n="oss.cta_primary">Read the source</a>
+                        <a class="btn btn--outline btn--large" href="how-it-works.html" data-i18n="oss.cta_secondary">How it reads</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ FINAL CTA ============ -->
+        <section class="final-cta">
+            <div class="wrap">
+                <div class="reveal">
+                    <div class="kicker" style="justify-content: center; margin-bottom: 40px;"><span class="kicker__num">§ 05</span> <span data-i18n="cta.kicker">The Ask</span></div>
+                    <h2 data-i18n="cta.title">Stop signing things<br/>you <span class="italic-accent">haven't read.</span></h2>
+                    <p data-i18n="cta.body">Free. Ninety seconds. No account. Real estate, rent, or car — you'll know more about your contract than ninety-five percent of people do.</p>
+                    <a class="btn btn--primary btn--large" href="app.html" data-i18n="cta.primary">Analyze a Contract</a>
+                    <p class="final-cta__note" data-i18n="cta.note">No account · Free · Open source</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <div class="wrap">
+            <div class="footer__grid">
+                <div class="footer__col">
+                    <div class="footer__brand">FinePrint</div>
+                    <p class="footer__tag" data-i18n="footer.tag">An AI contract reader for real estate, rent and car agreements. Free, open source, built to help.</p>
+                    <div class="footer__disclaimer">
+                        <strong data-i18n="footer.disc_strong">A helper, not a lawyer</strong>
+                        <span data-i18n="footer.disc">FinePrint is a second pair of eyes — it surfaces what's worth asking about. For binding decisions on your contract, a licensed attorney is still the right call. We make their time more valuable.</span>
+                    </div>
+                </div>
+                <div class="footer__col">
+                    <h5 data-i18n="footer.reads">Reads</h5>
+                    <ul>
+                        <li><a href="real-estate.html" data-i18n="footer.f_re">Real estate</a></li>
+                        <li><a href="rent.html" data-i18n="footer.f_rent">Rent &amp; lease</a></li>
+                        <li><a href="car.html" data-i18n="footer.f_car">Car</a></li>
+                    </ul>
+                </div>
+                <div class="footer__col">
+                    <h5 data-i18n="footer.product">Product</h5>
+                    <ul>
+                        <li><a href="app.html" data-i18n="footer.f_app">Analyze Free</a></li>
+                        <li><a href="how-it-works.html" data-i18n="footer.f_how">How It Works</a></li>
+                        <li><a href="pricing.html" data-i18n="footer.f_pricing">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="footer__col">
+                    <h5 data-i18n="footer.company">Company</h5>
+                    <ul>
+                        <li><a href="about.html" data-i18n="footer.f_about">About</a></li>
+                        <li><a href="https://github.com/fineprintdoc/fineprint" target="_blank" rel="noopener" data-i18n="footer.f_github">GitHub</a></li>
+                        <li><a href="mailto:founders@fineprintdoc.com" data-i18n="footer.f_contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <div>© <span data-year>2026</span> FinePrint Inc. · MIT Licensed</div>
+                <div><a href="privacy.html" data-i18n="footer.f_privacy">Privacy</a> · <a href="terms.html" data-i18n="footer.f_terms">Terms</a></div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="mobile-cta">
+        <a class="btn btn--primary btn--block" href="app.html" data-i18n="nav.analyze">Analyze Free</a>
+    </div>
+
+    <script src="assets/js/i18n.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
