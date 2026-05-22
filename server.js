@@ -32,6 +32,58 @@ const groq = process.env.GROQ_API_KEY
     ? new Groq({ apiKey: process.env.GROQ_API_KEY })
     : null;
 
+/* -------------------- Rate limiter --------------- */
+// In-memory sliding-window limiter per IP. On Vercel serverless the state
+// resets on each cold start, but instances stay hot long enough that one
+// bad actor hitting the same edge region still gets throttled. Good enough
+// for MVP; swap to Upstash Redis later if/when needed.
+const RL_PER_MIN = Number(process.env.RL_PER_MIN || 10);
+const RL_PER_HOUR = Number(process.env.RL_PER_HOUR || 50);
+const RL_WHITELIST = (process.env.RL_WHITELIST || "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+
+const ipBuckets = new Map(); // ip -> sorted array of timestamps (last hour)
+
+function clientIp(req) {
+    // Vercel + Cloudflare add forwarding headers; trust the leftmost entry.
+    const fwd = (req.headers["x-forwarded-for"] || "").toString().split(",")[0].trim();
+    return fwd || req.ip || req.connection?.remoteAddress || "unknown";
+}
+
+function rateLimitCheck(ip) {
+    if (RL_WHITELIST.includes(ip)) return { allowed: true };
+
+    const now = Date.now();
+    const HOUR = 3_600_000;
+    const MIN = 60_000;
+
+    const prior = (ipBuckets.get(ip) || []).filter((t) => now - t < HOUR);
+    const lastMin = prior.filter((t) => now - t < MIN).length;
+
+    if (lastMin >= RL_PER_MIN) {
+        const oldest = prior.find((t) => now - t < MIN);
+        return { allowed: false, retry: Math.ceil((MIN - (now - oldest)) / 1000), scope: "minute" };
+    }
+    if (prior.length >= RL_PER_HOUR) {
+        const oldest = prior[0];
+        return { allowed: false, retry: Math.ceil((HOUR - (now - oldest)) / 1000), scope: "hour" };
+    }
+
+    prior.push(now);
+    ipBuckets.set(ip, prior);
+
+    // Periodic GC to keep map from growing unbounded.
+    if (ipBuckets.size > 5000) {
+        for (const [k, v] of ipBuckets) {
+            if (!v.length || now - v[v.length - 1] > HOUR) ipBuckets.delete(k);
+        }
+    }
+
+    return { allowed: true, remainingMin: RL_PER_MIN - lastMin - 1, remainingHour: RL_PER_HOUR - prior.length };
+}
+
 const app = express();
 app.use(express.json({ limit: "2mb" }));
 app.use(express.urlencoded({ extended: true, limit: "2mb" }));
@@ -56,6 +108,24 @@ app.get("/api/health", (_req, res) => {
 
 /* -------------------- Analyze ------------------- */
 app.post("/api/analyze", upload.single("file"), async (req, res) => {
+    // Rate limit first — protects even unconfigured/error paths from abuse.
+    const ip = clientIp(req);
+    const rl = rateLimitCheck(ip);
+    if (!rl.allowed) {
+        res.set("Retry-After", String(rl.retry));
+        return res.status(429).json({
+            error:
+                rl.scope === "minute"
+                    ? `Too many requests. Try again in ${rl.retry} seconds.`
+                    : `Hourly limit reached on this IP. Try again in ${Math.ceil(rl.retry / 60)} minutes.`,
+            retryAfter: rl.retry,
+        });
+    }
+    if (typeof rl.remainingMin === "number") {
+        res.set("X-RateLimit-Remaining-Minute", String(rl.remainingMin));
+        res.set("X-RateLimit-Remaining-Hour", String(rl.remainingHour));
+    }
+
     if (!groq) {
         return res.status(503).json({
             error: "Server is not configured. Set GROQ_API_KEY in .env (free at console.groq.com).",
