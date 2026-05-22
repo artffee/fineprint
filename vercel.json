@@ -12,15 +12,15 @@
     ],
     "redirects": [
         {
-            "source": "/:path*",
+            "source": "/(.*)",
             "has": [{ "type": "host", "value": "fineprint-ten.vercel.app" }],
-            "destination": "https://fineprintdoc.com/:path*",
+            "destination": "https://fineprintdoc.com/$1",
             "permanent": true
         },
         {
-            "source": "/:path*",
+            "source": "/(.*)",
             "has": [{ "type": "host", "value": "www.fineprintdoc.com" }],
-            "destination": "https://fineprintdoc.com/:path*",
+            "destination": "https://fineprintdoc.com/$1",
             "permanent": true
         }
     ],
