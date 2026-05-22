@@ -15,19 +15,76 @@
     <meta property="og:description" content="Six stages: ingest, extract, score, translate, prioritize, deliver. Forty-plus clauses tracked per contract type." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://fineprintdoc.com/how-it-works.html" />
-    <meta property="og:image" content="https://fineprintdoc.com/og-image.svg" />
+    <meta property="og:image" content="https://fineprintdoc.com/og-image.png" />
     <meta property="og:site_name" content="FinePrint" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:locale:alternate" content="es_ES" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="How FinePrint Reads a Contract · FinePrint" />
     <meta name="twitter:description" content="Six stages: ingest, extract, score, translate, prioritize, deliver. Forty-plus clauses tracked per contract type." />
-    <meta name="twitter:image" content="https://fineprintdoc.com/og-image.svg" />
+    <meta name="twitter:image" content="https://fineprintdoc.com/og-image.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,900&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;700;800&display=swap" />
     <link rel="stylesheet" href="assets/css/styles.css" />
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Is FinePrint a lawyer?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No — and that's not what it's trying to be. FinePrint is a sharper read of your contract: it surfaces the clauses an attorney would normally flag, in plain English, so the questions you take to your attorney are the right ones. For binding decisions, please retain a licensed real-estate attorney in your state."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What states does FinePrint support?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "All fifty U.S. states. The clause taxonomy is built on the national universe of purchase agreements — NAR, state-association templates, attorney-drafted forms. State-specific quirks (Texas Promulgated Forms, the California RPA-CA, etc.) are recognized by their structure rather than memorized."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What data does FinePrint store?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Nothing. The contract is processed in memory and discarded as soon as the response is returned. FinePrint does not keep it, log it, or use it for training. For full sovereignty, the engine is open source under MIT and self-hostable."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What AI model powers FinePrint?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Meta's Llama 3.3 70B served via Groq, with a deterministic risk-scoring layer on top to normalize outputs and explicit guidance on state-law-sensitive clauses. The prompts and rules are all public on GitHub — self-hosters can swap to any other LLM with minimal changes."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can real estate agents use FinePrint with clients?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. Many agents already run every contract through FinePrint before forwarding to their client — it produces a plain-English briefing that doubles as documentation of clause review. The free tier is unlimited per device; brokerage team features are in the works."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How accurate is FinePrint?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "In a benchmark against attorney reviews of 100 sample contracts, FinePrint flagged 92% of issues an attorney called out, plus another ~15% the attorney missed in their first pass. It is not perfect, and it is not a substitute for a licensed attorney — but at $0 it is the cheapest second-opinion you can get on a $400,000 contract."
+                }
+            }
+        ]
+    }
+    </script>
 </head>
 <body>
 
@@ -160,7 +217,7 @@
                     </div>
                     <div class="faq__item">
                         <div class="faq__q">What AI model powers it?</div>
-                        <p class="faq__a">Anthropic's Claude (Sonnet 4.5) for clause analysis, with a deterministic risk-scoring layer on top to normalize outputs. The prompts and rules are all in the GitHub repo. Swap models if you self-host.</p>
+                        <p class="faq__a">Meta's Llama 3.3 70B, served via <a href="https://groq.com" class="link-gold">Groq</a>, with a deterministic risk-scoring layer on top to normalize outputs and explicit guidance on state-law-sensitive clauses. The prompts and rules are all in the GitHub repo — swap models freely if you self-host.</p>
                     </div>
                     <div class="faq__item">
                         <div class="faq__q">Can my agent use this?</div>
@@ -214,7 +271,7 @@
                     <h5 data-i18n="footer.company">Company</h5>
                     <ul>
                         <li><a href="about.html">About</a></li>
-                        <li><a href="https://github.com/fineprintdoc/fineprint" target="_blank" rel="noopener">GitHub</a></li>
+                        <li><a href="https://github.com/artffee/fineprint" target="_blank" rel="noopener">GitHub</a></li>
                         <li><a href="mailto:founders@fineprintdoc.com">Contact</a></li>
                     </ul>
                 </div>
@@ -232,5 +289,6 @@
 
     <script src="assets/js/i18n.js"></script>
     <script src="assets/js/main.js"></script>
+    <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>

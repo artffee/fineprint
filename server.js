@@ -124,18 +124,45 @@ const CONTRACT_TYPES = {
         domain: "real estate (purchase agreements, listing agreements, FSBO contracts, lease-to-own)",
         partyLabels: { buyer: "Buyer", seller: "Seller", investor: "Investor" },
         focus: "earnest money, inspection contingency, financing/appraisal, repair credits, closing date, title insurance, HOA delivery timing, assignment, as-is clauses, default and specific performance, environmental disclosures",
+        callouts: `Specific patterns to ALWAYS flag if present:
+- Earnest-money deposit non-refundable in under 7 days → CRITICAL (industry standard is 10–14 days)
+- Inspection contingency window < 7 calendar days → HIGH (10 days is standard)
+- "Time is of the essence" with no cure period for either side → HIGH
+- HOA / condo / co-op disclosures delivered fewer than 5 business days before closing → MEDIUM-HIGH (most state-mandated disclosure windows are longer)
+- Assignment forbidden without written consent + seller approval discretionary → HIGH for investors, MEDIUM for buyers
+- Broad as-is sale without inspection contingency → CRITICAL for buyer
+- Specific-performance remedy reserved only to one side → HIGH (unbalanced)
+- Liquidated damages clauses that allow seller to keep deposit AND sue → HIGH-CRITICAL`,
     },
     "rent": {
         label: "rent",
         domain: "residential leases and rental agreements",
         partyLabels: { tenant: "Tenant", landlord: "Landlord", cosigner: "Co-signer" },
         focus: "lease term and renewal, security deposit (cap, deductions, return window), rent increase rules, late fees, maintenance responsibility, entry notice, subletting, pets, early-termination penalties, eviction process, automatic renewal traps, utilities, joint-and-several liability",
+        callouts: `Specific patterns to ALWAYS flag if present:
+- Security deposit > 2 months' rent → CRITICAL. Most U.S. states cap residential deposits at 1–2 months; anything above is likely unenforceable above the cap. Say so explicitly.
+- Landlord entry notice < 24 hours (e.g. 12-hour notice) → HIGH. Most state statutes require 24–48 hours' notice for non-emergency entry. Likely unenforceable.
+- "Landlord shall have no obligation to mitigate damages" → CRITICAL. Most states impose a statutory duty on landlords to mitigate by re-renting. This clause is typically unenforceable. Tell the tenant they have leverage to negotiate a re-let provision.
+- Late fees that compound daily after a grace period (e.g. $X/day) → HIGH if the annualised rate exceeds 18%. Many courts strike per-diem late fees as unenforceable penalties.
+- Automatic renewal at a multiplier of original rent (e.g. 1.5× holdover rate) → MEDIUM. Often legal but punitive; user needs to know to give notice.
+- "No notice required for non-payment eviction" → HIGH. Almost universally unenforceable; statutes require a notice-to-cure period.
+- "Waiver of right to jury trial" → MEDIUM-HIGH
+- "Tenant pays all landlord's attorney fees in any dispute" → HIGH. Many states require mutual fee-shifting if any is allowed.`,
     },
     "car": {
         label: "car",
         domain: "vehicle purchase and lease agreements",
         partyLabels: { buyer: "Buyer", lessee: "Lessee", seller: "Seller" },
         focus: "purchase price, dealer fees and add-ons, trade-in valuation, financing terms (APR, total cost of credit), warranty (express, implied, 'as-is' waiver), lemon-law disclosure, arbitration clauses, mileage limits (lease), excess-wear definition (lease), disposition fee, GAP insurance, title and registration, repossession rights",
+        callouts: `Specific patterns to ALWAYS flag if present:
+- Vehicle sold "AS-IS" with all warranty waivers → CRITICAL for late-model used cars (under ~3 years). Note: some states (CT, ME, MA, MN, NJ, NY, RI, WV, WA, DC) prohibit "as-is" sales on used cars and the clause is unenforceable there.
+- Mandatory binding arbitration clause → HIGH. Tell the buyer to look for the opt-out window (often 30 days from signing) and how to exercise it. Federal Magnuson-Moss Warranty Act limits arbitration enforceability for warranty disputes.
+- APR or finance terms "subject to lender approval" without a hard cap → HIGH. This is the yo-yo financing trap. Tell buyer to demand a final, signed financing agreement before driving off.
+- Bundled dealer add-ons not itemised (theft etching, fabric protection, nitrogen tires, extended service contracts) → HIGH. These are usually pure markup; itemise them in the flag's "plain" field with rough fair-value estimates.
+- Mileage cap below ~12k/year on a 3-year lease → HIGH. U.S. average driving is ~13,500/year. Calculate the overage cost (excess miles × per-mile fee) and call it out.
+- Disposition fee at lease end with no waiver option → MEDIUM. Often negotiable, especially for re-leasing customers.
+- Excess wear-and-tear defined as "any" damage rather than "beyond normal" → HIGH. Recommend documenting condition with photos at delivery.
+- No GAP insurance disclosed on a leased or financed vehicle → MEDIUM. Tell buyer/lessee they could owe thousands if the car is totaled before the loan/lease is paid down.`,
     },
 };
 
@@ -173,6 +200,8 @@ You MUST respond with a JSON object having EXACTLY this shape:
 
 Focus areas for ${ct.domain}: ${ct.focus}.
 
+${ct.callouts}
+
 Rules:
 - score reflects risk TO THE NAMED PARTY only.
 - Map score → level: LOW <=3.5, MEDIUM <=5.5, HIGH <=7.5, CRITICAL >7.5.
@@ -180,6 +209,7 @@ Rules:
 - Return 3–7 flags. Prioritize by severity. Critical first.
 - "quote" must be a real substring of the input. If you cannot find one, omit that flag.
 - "plain" must NEVER quote the contract again — explain the consequence in plain English.
+- When a clause is likely UNENFORCEABLE under typical state law (e.g. mandatory mitigation duty, deposit caps, minimum entry-notice periods), flag it as CRITICAL or HIGH and say so in plain English so the user knows they have leverage.
 - Never claim to provide legal advice. The verdict should suggest action, not give legal counsel.
 - If the document does not appear to be a ${ct.domain} contract, return a single flag with sev "critical", title "Wrong contract type", and explain.
 - Respond ONLY with the JSON object. No commentary, no markdown, no code fences.`;

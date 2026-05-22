@@ -9,7 +9,7 @@ The one-shot path: GitHub → **Vercel** (free) → `fineprintdoc.com` via Namec
 > cap. **No credit card needed** for the free tier.
 
 > **Before you start (optional):** the codebase still references
-> `github.com/fineprintdoc/fineprint` in a few places (README footers, JSON-LD).
+> `github.com/artffee/fineprint` in a few places (README footers, JSON-LD).
 > The real repo is `github.com/artffee/fineprint`. Either find-and-replace, or
 > create the `fineprintdoc` GitHub org and
 > `gh repo transfer artffee/fineprint fineprintdoc/fineprint`.
