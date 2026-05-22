@@ -133,6 +133,26 @@
             "app.helper_strong": "A helper, not a lawyer",
             "app.helper_body": "FinePrint is a sharper read of your contract. It surfaces what's worth asking about — not a legal opinion. For binding decisions on your deal, please bring this to a licensed attorney in your jurisdiction. We make their time more valuable.",
 
+            /* Page-level metadata — used by the SSR build to translate
+               <title>, <meta description>, og/twitter tags per page.
+               Keys follow the pattern: meta.<page>.<title|desc>. */
+            "meta.home.title": "FinePrint — Free AI Contract Reader for Real Estate, Rent & Car",
+            "meta.home.desc": "Upload any real-estate, lease, or vehicle contract. Get a plain-English risk read in ninety seconds. Free. No account. Open-source. EN/ES.",
+            "meta.app.title": "Analyze Free · FinePrint — AI Contract Reader",
+            "meta.app.desc": "Upload a real-estate, rent, or car contract. Get a plain-English risk read in 90 seconds. Free, no account.",
+            "meta.how.title": "How FinePrint Reads a Contract",
+            "meta.how.desc": "Six stages: ingest, extract, score, translate, prioritize, deliver. Forty-plus clauses tracked per contract type.",
+            "meta.pricing.title": "Pricing — Free, Always · FinePrint",
+            "meta.pricing.desc": "FinePrint is free for unlimited contract analysis. No tiers, no upsells, no subscription. Open source under MIT.",
+            "meta.about.title": "About — The Team Behind FinePrint",
+            "meta.about.desc": "We build tools that make real estate, rent, and car paperwork transparent. The story behind FinePrint.",
+            "meta.re.title": "Real Estate Contract Review — AI-Powered · FinePrint",
+            "meta.re.desc": "Purchase agreements, FSBO, listing agreements. Earnest money, inspection, financing, title — flagged in plain English. Free.",
+            "meta.rent.title": "Lease & Rental Agreement Review · FinePrint",
+            "meta.rent.desc": "Apartment leases, sublets, co-signer guarantees. Deposit caps, late fees, entry rules. Free AI read.",
+            "meta.car.title": "Car Purchase & Lease Contract Review · FinePrint",
+            "meta.car.desc": "Vehicle purchase, lease, private-sale. APR traps, dealer add-ons, arbitration, mileage caps. Free AI read.",
+
             /* Lang toggle */
             "lang.en": "EN",
             "lang.es": "ES",
@@ -260,16 +280,38 @@
             "app.helper_strong": "Una ayuda, no un abogado",
             "app.helper_body": "FinePrint es una lectura más afilada de tu contrato. Te muestra lo que vale la pena preguntar — no es una opinión legal. Para decisiones vinculantes, llevá esto a un abogado matriculado en tu jurisdicción. Hacemos que su tiempo valga más.",
 
+            /* Page-level metadata (Spanish) */
+            "meta.home.title": "FinePrint — Lector de Contratos con IA Gratis para Inmuebles, Alquiler y Auto",
+            "meta.home.desc": "Subí cualquier contrato inmobiliario, de alquiler o de vehículo. Conseguí una lectura de riesgo en español claro en noventa segundos. Gratis. Sin cuenta. Código abierto.",
+            "meta.app.title": "Analizar Gratis · FinePrint — Lector de Contratos con IA",
+            "meta.app.desc": "Subí un contrato de inmueble, alquiler o auto. Obtené una lectura de riesgo en español claro en 90 segundos. Gratis, sin cuenta.",
+            "meta.how.title": "Cómo FinePrint Lee un Contrato",
+            "meta.how.desc": "Seis etapas: ingesta, extracción, puntuación, traducción, priorización, entrega. Más de cuarenta cláusulas analizadas por tipo de contrato.",
+            "meta.pricing.title": "Precios — Gratis, Siempre · FinePrint",
+            "meta.pricing.desc": "FinePrint es gratis para análisis ilimitados. Sin niveles, sin upsells, sin suscripción. Código abierto bajo licencia MIT.",
+            "meta.about.title": "Sobre Nosotros — El Equipo Detrás de FinePrint",
+            "meta.about.desc": "Construimos herramientas que hacen los papeles inmobiliarios, de alquiler y de auto transparentes. La historia detrás de FinePrint.",
+            "meta.re.title": "Revisión de Contratos Inmobiliarios con IA · FinePrint",
+            "meta.re.desc": "Contratos de compraventa, FSBO, contratos de listado. Seña, inspección, financiación, título — señalados en español claro. Gratis.",
+            "meta.rent.title": "Revisión de Contratos de Alquiler · FinePrint",
+            "meta.rent.desc": "Contratos de alquiler, sublocaciones, garantías. Topes de depósito, intereses por mora, reglas de entrada. Lectura de IA gratis.",
+            "meta.car.title": "Revisión de Contratos de Auto y Leasing · FinePrint",
+            "meta.car.desc": "Compra de vehículo, leasing, venta particular. APR, extras del concesionario, arbitraje, límites de kilometraje. Lectura de IA gratis.",
+
             "lang.en": "EN",
             "lang.es": "ES",
         },
     };
 
     function resolveLang() {
-        // Base language is always English. Spanish is opt-in only:
-        //   1. ?lang=es URL param  (highest priority — for sharing/linking)
-        //   2. localStorage         (remembers user's explicit toggle)
-        //   3. fall back to English (we do NOT auto-detect from navigator.language)
+        // Source of truth in this order:
+        //   1. URL path:  /es/...  → Spanish.  Anything else → English.
+        //   2. ?lang=es URL param  (legacy + sharing)
+        //   3. localStorage        (remembers user's last toggle)
+        //   4. Default English (we do NOT auto-detect from navigator.language)
+        const pathname = window.location.pathname || "/";
+        if (pathname.startsWith("/es/") || pathname === "/es") return "es";
+
         try {
             const url = new URL(window.location.href);
             const q = url.searchParams.get("lang");
@@ -280,6 +322,23 @@
             if (stored && SUPPORTED.includes(stored)) return stored;
         } catch (_) {}
         return DEFAULT_LANG;
+    }
+
+    function urlForLang(lang) {
+        // Build the equivalent URL in the requested language.
+        const u = new URL(window.location.href);
+        // Strip any ?lang= param — path now carries the language.
+        u.searchParams.delete("lang");
+
+        const onSpanishPath = u.pathname.startsWith("/es/") || u.pathname === "/es";
+        if (lang === "es" && !onSpanishPath) {
+            u.pathname = "/es" + (u.pathname.startsWith("/") ? u.pathname : "/" + u.pathname);
+            if (u.pathname === "/es/") u.pathname = "/es/";
+        } else if (lang === "en" && onSpanishPath) {
+            u.pathname = u.pathname.replace(/^\/es(\/|$)/, "/");
+            if (u.pathname === "//") u.pathname = "/";
+        }
+        return u.toString();
     }
 
     function apply(lang) {
@@ -312,14 +371,18 @@
         if (!SUPPORTED.includes(lang)) return;
         if (persist) {
             try { localStorage.setItem(STORAGE_KEY, lang); } catch (_) {}
-            // Update URL without reload
-            try {
-                const url = new URL(window.location.href);
-                if (lang === DEFAULT_LANG) url.searchParams.delete("lang");
-                else url.searchParams.set("lang", lang);
-                window.history.replaceState({}, "", url);
-            } catch (_) {}
         }
+        // The Spanish pages are prerendered at /es/* — navigate to the
+        // equivalent URL so Google gets real Spanish HTML and the user sees
+        // a full Spanish page (not just runtime-swapped text).
+        const target = urlForLang(lang);
+        if (target !== window.location.href) {
+            window.location.href = target;
+            return;
+        }
+        // Already on the right URL: still apply runtime swap as a safety net
+        // (covers strings that aren't in the prerendered HTML, e.g. dynamic
+        // analyzer output).
         apply(lang);
     }
 

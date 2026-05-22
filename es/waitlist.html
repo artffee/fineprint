@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stay in the Loop · FinePrint</title>
+    <meta name="description" content="Get a heads-up when we ship new features. One email, only when there's news worth sharing." />
+    <link rel="canonical" href="https://fineprintdoc.com/es/waitlist.html" />
+    <link rel="alternate" hreflang="en" href="https://fineprintdoc.com/waitlist.html" />
+    <link rel="alternate" hreflang="es" href="https://fineprintdoc.com/es/waitlist.html" />
+    <link rel="alternate" hreflang="x-default" href="https://fineprintdoc.com/waitlist.html" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+    <meta name="author" content="FinePrint Inc." />
+    <meta property="og:title" content="Stay in the Loop · FinePrint" />
+    <meta property="og:description" content="Get a heads-up when we ship new features. One email, only when there's news worth sharing." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://fineprintdoc.com/es/waitlist.html" />
+    <meta property="og:image" content="https://fineprintdoc.com/og-image.png" />
+    <meta property="og:site_name" content="FinePrint" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="es_ES" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Stay in the Loop · FinePrint" />
+    <meta name="twitter:description" content="Get a heads-up when we ship new features. One email, only when there's news worth sharing." />
+    <meta name="twitter:image" content="https://fineprintdoc.com/og-image.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,900&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;700;800&display=swap" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+
+    <a class="skip-link" href="#main" data-i18n="nav.skip">Saltar al contenido</a>
+
+    <nav class="nav" aria-label="Primary">
+        <div class="wrap nav__inner">
+            <a href="/es/index.html" class="brand">
+                <span class="brand__mark">FinePrint</span>
+                <span class="brand__sub">Contract Reader</span>
+            </a>
+            <ul class="nav__links">
+                <li><a class="nav__link" href="/es/how-it-works.html" data-i18n="nav.how">Cómo Funciona</a></li>
+                <li><a class="nav__link" href="/es/real-estate.html" data-i18n="nav.realestate">Inmuebles</a></li>
+                <li><a class="nav__link" href="/es/rent.html" data-i18n="nav.rent">Alquiler</a></li>
+                <li><a class="nav__link" href="/es/car.html" data-i18n="nav.car">Auto</a></li>
+                <li><a class="nav__link" href="/es/about.html" data-i18n="nav.about">Nosotros</a></li>
+                <li class="lang-toggle" role="group" aria-label="Language">
+                    <button data-lang-btn="en" type="button">EN</button>
+                    <button data-lang-btn="es" type="button">ES</button>
+                </li>
+<li><a class="btn btn--primary" href="/es/app.html" data-i18n="nav.analyze">Analizar Gratis</a></li>
+            </ul>
+            <button class="nav__hamburger" aria-label="Abrir menú" data-i18n-attr="aria-label:nav.open_menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <main id="main">
+
+        <section class="page-hero">
+            <div class="wrap">
+                <div class="kicker"><span class="kicker__num">§</span> Stay In The Loop</div>
+                <h1>News, <span class="italic-accent">when there's news.</span></h1>
+                <p>FinePrint is free, and the analyzer page works today. If you want to hear from us when we ship something new — team features, the API, a Chrome plugin, whatever comes next — leave your email. One message at a time, never more.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="wrap">
+                <form class="waitlist reveal" id="waitlistForm" novalidate>
+                    <div class="waitlist__row">
+                        <label for="wlEmail" class="sr-only">Email address</label>
+                        <input type="email" id="wlEmail" name="email" placeholder="you@example.com" required autocomplete="email" />
+                        <button type="submit" class="btn btn--primary">Notify me</button>
+                    </div>
+
+                    <div style="margin-top: 18px;">
+                        <label for="wlRole" class="sr-only">Your role</label>
+                        <select id="wlRole" name="role" style="width: 100%; background: rgba(0,0,0,0.4); border: 1px solid rgba(250, 250, 250,0.08); color: var(--cream); font-family: var(--mono); font-size: 13.5px; padding: 14px 18px;">
+                            <option value="">I am a… (optional)</option>
+                            <option value="buyer">Home buyer</option>
+                            <option value="seller">Home seller / FSBO</option>
+                            <option value="agent">Real estate agent</option>
+                            <option value="broker">Brokerage / team lead</option>
+                            <option value="investor">Real estate investor</option>
+                            <option value="developer">Developer / engineer</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="waitlist__msg" data-waitlist-msg></div>
+
+                    <p style="margin-top: 32px; color: var(--stone); font-family: var(--mono); font-size: 13px; line-height: 1.65;">
+                        We do not sell your email. We do not "drip-campaign" you. Unsubscribe is one click. The actual analyzer is <a href="/es/app.html" class="link-gold">live and free</a> — no waiting required.
+                    </p>
+                </form>
+
+                <hr class="rule rule--center rule--full" style="max-width: 560px; margin: 80px auto;"/>
+
+                <div style="text-align: center;">
+                    <p style="color: var(--stone); font-family: var(--mono); font-size: 14px; max-width: 50ch; margin: 0 auto 28px;">
+                        Run an analysis right now — no email needed.
+                    </p>
+                    <a href="/es/app.html" class="btn btn--outline">Analyze a Contract</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="wrap">
+            <div class="footer__bottom">
+                <div>© <span data-year>2026</span> FinePrint Inc. · MIT Licensed</div>
+                <div><a href="privacy.html" data-i18n="footer.f_privacy">Privacidad</a> · <a href="terms.html" data-i18n="footer.f_terms">Términos</a></div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/i18n.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
