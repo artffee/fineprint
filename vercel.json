@@ -10,6 +10,20 @@
     "rewrites": [
         { "source": "/api/(.*)", "destination": "/api" }
     ],
+    "redirects": [
+        {
+            "source": "/:path*",
+            "has": [{ "type": "host", "value": "fineprint-ten.vercel.app" }],
+            "destination": "https://fineprintdoc.com/:path*",
+            "permanent": true
+        },
+        {
+            "source": "/:path*",
+            "has": [{ "type": "host", "value": "www.fineprintdoc.com" }],
+            "destination": "https://fineprintdoc.com/:path*",
+            "permanent": true
+        }
+    ],
     "cleanUrls": true,
     "trailingSlash": false,
     "headers": [
