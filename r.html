@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shared Analysis · FinePrint</title>
+    <meta name="description" content="A FinePrint contract analysis someone shared with you. Free AI contract reader for real-estate, rent and car agreements." />
+    <link rel="canonical" href="https://fineprintdoc.com/r.html" />
+    <meta name="robots" content="noindex, follow" />
+    <meta property="og:title" content="A contract was analysed for you · FinePrint" />
+    <meta property="og:description" content="Read the risk-flagged briefing of a contract someone shared with you. Then try your own — free." />
+    <meta property="og:image" content="https://fineprintdoc.com/og-image.png" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,900&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;700;800&display=swap" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <nav class="nav" aria-label="Primary">
+        <div class="wrap nav__inner">
+            <a href="index.html" class="brand">
+                <span class="brand__mark">FinePrint</span>
+                <span class="brand__sub">Contract Reader</span>
+            </a>
+            <ul class="nav__links">
+                <li><a class="nav__link" href="how-it-works.html">How It Works</a></li>
+                <li><a class="nav__link" href="real-estate.html">Real Estate</a></li>
+                <li><a class="nav__link" href="rent.html">Rent</a></li>
+                <li><a class="nav__link" href="car.html">Car</a></li>
+                <li><a class="btn btn--primary" href="app.html">Analyze Your Own</a></li>
+            </ul>
+            <button class="nav__hamburger" aria-label="Open menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <main id="main">
+
+        <section class="page-hero">
+            <div class="wrap" style="max-width: 920px;">
+                <div class="kicker"><span class="kicker__num">§</span> Shared Analysis</div>
+                <h1 data-share-title>Someone shared a contract<br/><span class="italic-accent">read with you.</span></h1>
+                <p data-share-subtitle>Below is the FinePrint risk briefing for a contract someone analysed and sent to you. You can read it freely — and then run your own contract through, free, for a similar read.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="wrap" style="max-width: 920px;">
+                <div data-share-result>
+                    <div class="info info--warn">Loading shared analysis…</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="final-cta">
+            <div class="wrap">
+                <h2>Your own contract,<br/><span class="italic-accent">read in ninety seconds.</span></h2>
+                <p>Free. No account. Real estate, rent, or car — same engine that produced the report you just read.</p>
+                <a class="btn btn--primary btn--large" href="app.html">Analyze a Contract</a>
+                <p class="final-cta__note">No account · Free · Open source</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="wrap">
+            <div class="footer__bottom">
+                <div>© <span data-year>2026</span> FinePrint Inc. · MIT Licensed</div>
+                <div><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    /* Shared-report decoder. The report payload is stored in location.hash
+       as URL-encoded JSON. No server lookup, no storage — the link itself
+       contains the data. */
+    (function () {
+        const yearEl = document.querySelector("[data-year]");
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+        const result = document.querySelector("[data-share-result]");
+        const titleEl = document.querySelector("[data-share-title]");
+
+        function escapeHtml(s) {
+            return String(s || "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;");
+        }
+
+        function renderReportHtml(data) {
+            const flagsHtml = (data.flags || [])
+                .map(
+                    (f) => `
+                <div class="flag flag--${escapeHtml(f.sev)}">
+                    <div class="flag__head">
+                        <span class="badge badge--${escapeHtml(f.sev)}">${escapeHtml(f.sev)}</span>
+                        <span class="flag__title">${escapeHtml(f.title)}</span>
+                    </div>
+                    ${f.quote ? `<p class="flag__quote">"${escapeHtml(f.quote)}"</p>` : ""}
+                    <p class="flag__plain">${escapeHtml(f.plain)}</p>
+                </div>`
+                )
+                .join("");
+
+            const levelClass = data.levelClass || "amber";
+            const scoreColor = {
+                green: "var(--green)",
+                amber: "var(--amber)",
+                rust: "var(--rust)",
+                red: "var(--red)",
+            }[levelClass] || "var(--amber)";
+            const priority = (data.flags || []).filter(
+                (f) => f.sev === "critical" || f.sev === "high"
+            ).length;
+
+            const contractType = data.contractType || "contract";
+            const party = data.party || "";
+
+            return `
+                <div class="report">
+                    <div class="report__head">
+                        <div>
+                            <div class="report__meta">FinePrint Analysis</div>
+                            <div class="report__meta report__meta--gold">${escapeHtml(contractType.replace("-", " "))} · ${escapeHtml(party.toUpperCase())}</div>
+                        </div>
+                        <button class="btn btn--ghost" type="button" onclick="window.print()">Save PDF</button>
+                    </div>
+
+                    <div class="report__score report__score--${levelClass}">
+                        <div>
+                            <div class="report__score-num" style="color: ${scoreColor};">${Number(data.score).toFixed(1)}</div>
+                            <div class="report__score-label">Risk Score · ${escapeHtml(data.level || "")}</div>
+                        </div>
+                        <div class="report__meta report__meta--right">${(data.flags || []).length} flags<br/>${priority} priority</div>
+                    </div>
+
+                    ${flagsHtml}
+
+                    ${data.verdict ? `
+                    <div class="report__verdict">
+                        <strong>Verdict</strong>
+                        ${escapeHtml(data.verdict)}
+                    </div>` : ""}
+
+                    <div class="helper-note" style="margin-top: 32px;">
+                        <strong>A helper, not a lawyer</strong>
+                        FinePrint surfaces what's worth asking about. For binding decisions, please bring this to a licensed attorney in your jurisdiction.
+                    </div>
+                </div>`;
+        }
+
+        try {
+            const raw = window.location.hash.replace(/^#/, "");
+            if (!raw) {
+                result.innerHTML = `
+                    <div class="info info--warn">
+                        <strong>No analysis in this link.</strong> The URL doesn't contain a shared report.
+                        <a href="app.html" class="link-gold">Analyze your own contract instead →</a>
+                    </div>`;
+                return;
+            }
+
+            const json = decodeURIComponent(raw);
+            const data = JSON.parse(json);
+
+            // Customise the page heading with the contract type
+            const ctLabel = (data.contractType || "contract").replace("-", " ");
+            if (titleEl) {
+                titleEl.innerHTML = `Someone shared a <span class="italic-accent">${escapeHtml(ctLabel)}</span><br/>contract read with you.`;
+            }
+
+            result.innerHTML = renderReportHtml(data);
+        } catch (err) {
+            console.error("[share] decode failed:", err);
+            result.innerHTML = `
+                <div class="info info--danger">
+                    <strong>Couldn't read this link.</strong> The shared analysis appears corrupted or in an old format.
+                    <a href="app.html" class="link-gold">Analyze a contract from scratch →</a>
+                </div>`;
+        }
+    })();
+    </script>
+
+    <script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

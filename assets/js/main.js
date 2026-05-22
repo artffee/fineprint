@@ -369,6 +369,18 @@
                 (f) => f.sev === "critical" || f.sev === "high"
             ).length;
 
+            // Build the share URL — the encoded report itself is the payload.
+            const shareData = {
+                score: data.score,
+                level: data.level,
+                levelClass: data.levelClass,
+                verdict: data.verdict,
+                flags: data.flags,
+                party: data.party,
+                contractType: data.contractType,
+            };
+            const shareUrl = `${location.origin}/r.html#${encodeURIComponent(JSON.stringify(shareData))}`;
+
             return `
                 <div class="report report--bare">
                     <div class="report__head">
@@ -376,7 +388,10 @@
                             <div class="report__meta">FinePrint Analysis · ${new Date().toLocaleDateString()}</div>
                             <div class="report__meta report__meta--gold">Perspective: ${(data.party || "").toUpperCase()}${data.model ? ` · ${escapeHtml(data.model)}` : ""}</div>
                         </div>
-                        <button class="btn btn--ghost" type="button" onclick="window.print()">Save PDF</button>
+                        <div class="report__actions">
+                            <button class="btn btn--ghost" type="button" data-share-url="${escapeHtml(shareUrl)}">Share</button>
+                            <button class="btn btn--ghost" type="button" onclick="window.print()">Save PDF</button>
+                        </div>
                     </div>
 
                     <div class="report__score report__score--${levelClass}">
@@ -766,6 +781,39 @@
             }
         });
     }
+
+    /* ---------- Share button (delegated; works for dynamically-rendered reports) ---------- */
+    document.addEventListener("click", async (e) => {
+        const btn = e.target.closest("[data-share-url]");
+        if (!btn) return;
+        const url = btn.dataset.shareUrl;
+        const original = btn.textContent;
+
+        try {
+            if (navigator.share && /Mobi|Android/i.test(navigator.userAgent)) {
+                // Native share sheet on mobile (gives a better UX than copy-paste)
+                await navigator.share({
+                    title: "Contract analysis · FinePrint",
+                    text: "Here's the FinePrint risk briefing on this contract.",
+                    url,
+                });
+                return;
+            }
+            await navigator.clipboard.writeText(url);
+            btn.textContent = "Link copied!";
+            btn.style.color = "var(--gold)";
+        } catch (err) {
+            // Clipboard API can fail (older browsers, insecure context).
+            // Fall back to a prompt the user can manually copy from.
+            window.prompt("Copy this link:", url);
+            btn.textContent = "Link ready";
+        }
+
+        setTimeout(() => {
+            btn.textContent = original;
+            btn.style.color = "";
+        }, 2200);
+    });
 
     /* ---------- Scroll reveal ---------- */
     if ("IntersectionObserver" in window) {

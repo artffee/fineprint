@@ -1700,6 +1700,17 @@ p {
     text-align: right;
 }
 
+.report__actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.report__actions .btn {
+    transition: color 0.2s ease;
+}
+
 /* ----- About story contact cards ----- */
 .contact-grid {
     display: grid;
